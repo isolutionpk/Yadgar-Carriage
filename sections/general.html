@@ -1,0 +1,83 @@
+<template class="task-template">
+    <div class="contents js-section" id="general-accounts-section">
+
+        <!-- Day Book Navigation Menu -->
+        <div class="day-book-nav">
+            <a href="javascript:;" id="purchases-accounts4" data-section="purchases-accounts">
+                <i class="fa fa-shopping-cart"></i> Purchases
+            </a>
+            <a href="javascript:;" id="sales-accounts4" data-section="sales-accounts">
+                <i class="fa fa-signal"></i> Sales
+            </a>
+            <a href="javascript:;" id="ledger-accounts4" data-section="ledger-accounts">
+                <i class="fa fa-book"></i> Debit/Credit
+            </a>
+            <a href="javascript:;" id="general-accounts4" data-section="general-accounts" class="active">
+                <i class="fa fa-list-alt"></i> General
+            </a>
+            <a href="javascript:;" id="profit-loss4" data-section="profit-loss">
+                <i class="fa fa-money"></i> Profit and Loss
+            </a>
+            <div class="clearfix"></div>
+        </div>
+
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                General
+                <small>Account</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="javascript:;" id="dashboard" data-section="dashboard">
+                        <i class="fa fa-dashboard"></i> Dashboard
+                    </a>
+                </li>
+                <li class="active">General</li>
+            </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="box">
+                <div class="box-header">
+                    <form class="form-inline pull-left" id="general-filter-form">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="general-start-date" placeholder="start date">
+                            <div class="input-group-addon">to</div>
+                            <input type="text" class="form-control" id="general-end-date" placeholder="end date">
+                        </div>
+                        <input type="submit" value="Filter" class="btn btn-success">
+                    </form>
+                    <div class="pull-left" style="margin-left: 10px;">
+                        <input type="text" class="form-control" id="general-created-date" placeholder="Creating date">
+                    </div>
+                    <div class="btn pull-right">
+                        <a href="javascript:;" onclick="window.print()">
+                            <i class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+
+                <div class="box-body">
+                    <table id="general_list" class="table table-bordered table-striped datatable"></table>
+                </div>
+                <!-- /.box-body -->
+
+                <div class="box-footer">
+                    <div class="input-group pull-right">
+                        <input type="number" class="form-control" placeholder="" id="general-debit-total" disabled>
+                        <div class="input-group-addon">-</div>
+                        <input type="number" class="form-control" placeholder="" id="general-credit-total" disabled>
+                        <div class="input-group-addon">=</div>
+                        <input type="number" class="form-control" placeholder="" id="general-amount-total" disabled>
+                    </div>
+                </div>
+                <!-- /.box-footer -->
+            </div>
+            <!-- /.box -->
+        </section>
+        <!-- /.content -->
+    </div>
+</template>

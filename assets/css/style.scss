@@ -1,0 +1,702 @@
+// font
+@font-face {
+  font-family: 'Source Sans Pro';
+  src: url('../fonts/SourceSansPro-Bold/SourceSansPro-Bold.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/SourceSansPro-Bold/SourceSansPro-Bold.woff') format('woff'),
+  url('../fonts/SourceSansPro-Bold/SourceSansPro-Bold.ttf') format('truetype'),
+  url('../fonts/SourceSansPro-Bold/SourceSansPro-Bold.svg#SourceSansPro-Bold') format('svg');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Source Sans Pro';
+  src: url('../fonts/SourceSansPro-SemiBold/SourceSansPro-SemiBold.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/SourceSansPro-SemiBold/SourceSansPro-SemiBold.woff') format('woff'),
+  url('../fonts/SourceSansPro-SemiBold/SourceSansPro-SemiBold.ttf') format('truetype'),
+  url('../fonts/SourceSansPro-SemiBold/SourceSansPro-SemiBold.svg#SourceSansPro-SemiBold') format('svg');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Source Sans Pro';
+  src: url('../fonts/SourceSansPro-Regular/SourceSansPro-Regular.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/SourceSansPro-Regular/SourceSansPro-Regular.woff') format('woff'),
+  url('../fonts/SourceSansPro-Regular/SourceSansPro-Regular.ttf') format('truetype'),
+  url('../fonts/SourceSansPro-Regular/SourceSansPro-Regular.svg#SourceSansPro-Regular') format('svg');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Source Sans Pro';
+  src: url('../fonts/SourceSansPro-Light/SourceSansPro-Light.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/SourceSansPro-Light/SourceSansPro-Light.woff') format('woff'),
+  url('../fonts/SourceSansPro-Light/SourceSansPro-Light.ttf') format('truetype'),
+  url('../fonts/SourceSansPro-Light/SourceSansPro-Light.svg#SourceSansPro-Light') format('svg');
+  font-weight: 300;
+  font-style: normal;
+}
+
+.login-page {
+  position: inherit !important;
+  background: #00a65a;
+  a {
+    color: white;
+  }
+}
+
+// Google Translate
+#google_translate_element {
+  margin-top: 12px;
+}
+
+// Header bar
+@media screen and (min-width: 768px) {
+  header {
+    .navbar-brand {
+      display: none;
+    }
+    #navbar-collapse {
+      .nav > li > a {
+        padding: 5px 10px;
+        text-align: center;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  header {
+    .nav > li > a br {
+      display: none;
+    }
+  }
+}
+
+// Navigation fixed
+.navbar-collapse.pull-left + .navbar-custom-menu {
+  right: 0 !important;
+}
+
+// Day book navigation menu
+.day-book-nav {
+  padding: 15px;
+  a {
+    width: 20%;
+    color: black;
+    float: left;
+    font-size: 15px;
+    background: white;
+    line-height: 40px;
+    text-align: center;
+    border-right: 1px solid black;
+
+    &:last-of-type {
+      border-right: 0;
+    }
+
+    &:hover, &.active {
+      color: white;
+      background: #00a65a;
+    }
+  }
+}
+
+// Wrapper settings
+.content-wrapper {
+  position: relative;
+}
+
+.contents {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateX(-20px);
+  transition: visibility 0s .12s linear, opacity .12s ease-in, transform .12s ease-in;
+
+  @media print {
+    display: none;
+  }
+}
+
+.contents.is-shown {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(0);
+  transition: visibility 0s 0s linear, opacity .36s ease-out, transform .36s ease-out;
+
+  @media print {
+    display: block;
+    position: relative;
+  }
+}
+
+// Data table settings
+table.dataTable {
+  border-collapse: collapse;
+  width: 100% !important;
+}
+
+.table > thead:first-child > tr:first-child > td:focus,
+.table > thead:first-child > tr:first-child > th:focus {
+  z-index: 9;
+}
+
+#reports_list, #supplier_reports_list, #profit_reports_list, #vehicle_reports_list,
+#purchases_list, #sales_list, #ledger_list, #general_list,
+#profit_list, #cartage_list, #cartage_documents_list {
+  thead > tr > th {
+    padding: 3px 22px 3px 3px;
+  }
+  thead .sorting:after,
+  thead .sorting_asc:after,
+  thead .sorting_desc:after,
+  thead .sorting_asc_disabled:after,
+  thead .sorting_desc_disabled:after {
+    right: 3px;
+    bottom: 3px;
+  }
+}
+
+#purchases_list, #sales_list, #ledger_list, #general_list,
+#profit_list, #cartage_list, #cartage_documents_list {
+  tbody td, tfoot td {
+    padding: 0;
+  }
+  td input {
+    padding: 3px;
+    width: 100% !important;
+    border: 1px solid transparent;
+  }
+  td input:disabled {
+    background: inherit;
+  }
+  > tbody > tr:nth-of-type(odd) {
+    input, .select2-selection--single {
+      background-color: #f9f9f9;
+    }
+  }
+  td .padApply {
+    padding: 3px;
+  }
+
+  td .padApply, tr > td:last-child {
+    line-height: 34px;
+  }
+  td {
+    .fa {
+      padding: 3px;
+      font-size: 17px;
+      cursor: pointer;
+    }
+    .fa-plus-square, .fa-check-square-o {
+      color: #00a65a;
+    }
+    .fa-pencil-square-o {
+      color: #f39c12;
+    }
+    .fa-exclamation-circle, .fa-trash {
+      color: #dd4b39;
+    }
+    a[data-delete]:focus .fa {
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
+    }
+  }
+  .select2-container--default .select2-selection--single,
+  .select2-selection .select2-selection--single {
+    padding: 3px;
+    border: 1px solid transparent;
+  }
+  td input:focus, .select2-container--focus .select2-selection--single {
+    box-shadow: none;
+    border-color: #3c8dbc;
+  }
+
+  @media screen and (max-width: 1000px) {
+    tr > th, tr > td {
+      font-size: 12px;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow b {
+      margin-top: -3px;
+    }
+  }
+}
+
+// table with fixed
+#purchases_list {
+  tr > th, tr > td {
+    &:first-child {
+      width: 6% !important;
+    }
+    &:nth-of-type(2) {
+      width: 14% !important;
+    }
+    &:nth-of-type(3), &:nth-of-type(4), &:nth-of-type(5), &:nth-of-type(7), &:nth-of-type(9) {
+      width: 10% !important;
+    }
+    &:nth-of-type(6), &:nth-of-type(8) {
+      width: 15% !important;
+    }
+  }
+}
+
+#sales_list {
+  tr > th, tr > td {
+    &:first-child {
+      width: 6% !important;
+    }
+    &:nth-of-type(2) {
+      width: 14% !important;
+    }
+    &:nth-of-type(3), &:nth-of-type(4), &:nth-of-type(5), &:nth-of-type(7), &:nth-of-type(8), &:nth-of-type(9) {
+      width: 10% !important;
+    }
+    &:nth-of-type(6) {
+      width: 20% !important;
+    }
+  }
+}
+
+#ledger_list {
+  tr > th, tr > td {
+    &:first-child {
+      width: 6% !important;
+    }
+    &:nth-of-type(3), &:nth-of-type(5) {
+      width: 14% !important;
+    }
+    &:nth-of-type(2), &:nth-of-type(4) {
+      width: 28% !important;
+    }
+    &:nth-of-type(6) {
+      width: 10% !important;
+    }
+  }
+}
+
+#general_list, #profit_list {
+  tr > th, tr > td {
+    &:first-child {
+      width: 6% !important;
+    }
+    &:nth-of-type(3), &:nth-of-type(4) {
+      width: 14% !important;
+    }
+    &:nth-of-type(2), &:nth-of-type(5) {
+      width: 28% !important;
+    }
+    &:nth-of-type(6) {
+      width: 10% !important;
+    }
+  }
+}
+
+#cartage_list {
+  tr > th, tr > td {
+    &:first-child {
+      width: 6% !important;
+    }
+    &:nth-of-type(4), &:nth-of-type(5) {
+      width: 14% !important;
+    }
+    &:nth-of-type(2), &:nth-of-type(6) {
+      width: 20% !important;
+    }
+    &:nth-of-type(3) {
+      width: 16% !important;
+    }
+    &:nth-of-type(7) {
+      width: 10% !important;
+    }
+  }
+}
+
+#cartage_documents_list {
+  tr > th, tr > td {
+    width: 10%;
+    &:first-child {
+      width: 6% !important;
+    }
+    &:nth-of-type(2) {
+      width: 14% !important;
+    }
+  }
+}
+
+// Reports
+#reports-section {
+  .box-footer {
+    padding-top: 0;
+    button {
+      width: 120px;
+      margin-top: 10px;
+    }
+  }
+}
+
+#report-information, #supplier-report-information,
+#profit-report-information, #vehicle-report-information {
+  margin: 10px 0;
+}
+
+#reports_list, #supplier_reports_list, #profit_reports_list, #vehicle_reports_list {
+  tbody td, tfoot td {
+    padding: 3px;
+  }
+}
+
+// Without Supplier Reports
+#reports_list, #profit_reports_list, #vehicle_reports_list {
+  tr > th, tr > td {
+    &:first-child {
+      width: 6% !important;
+    }
+    &:nth-of-type(2) {
+      width: 14% !important;
+    }
+    &:nth-of-type(3) {
+      width: 35% !important;
+    }
+    &:nth-of-type(4), &:nth-of-type(5), &:nth-of-type(6) {
+      width: 15% !important;
+    }
+  }
+}
+
+// Supplier Reports
+#supplier_reports_list {
+  tr > th, tr > td {
+    &:nth-of-type(1) {
+      width: 30% !important;
+    }
+    &:nth-of-type(2) {
+      width: 50% !important;
+    }
+    &:nth-of-type(3) {
+      width: 20% !important;
+    }
+  }
+}
+
+// Select 2 Settings
+.select2 {
+  width: 100% !important;
+}
+
+.select2-container--open .select2-dropdown--below,
+.select2-container--open .select2-dropdown--above {
+  width: 300px !important;
+}
+
+.select2-results__options li {
+  span {
+    overflow: hidden;
+    line-height: 15px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  > div {
+    > span:first-child {
+      width: 50%;
+      float: left;
+    }
+    > span:last-child {
+      width: 50%;
+      float: right;
+      text-align: right;
+    }
+  }
+  > span {
+    width: 100%;
+  }
+}
+
+// date range picker
+#report-calendar {
+  position: relative !important;
+  display: inline-block;
+  margin: 0 auto;
+  z-index: 100;
+  > div {
+    top: 0 !important;
+    left: 0 !important;
+    display: block !important;
+    position: relative !important;
+  }
+}
+
+.modal-backdrop.fade.in {
+  z-index: 1;
+}
+
+// toast settings
+.toast {
+  visibility: hidden;
+  color: #fff;
+  text-align: center;
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  top: 56px;
+  span {
+    padding: 10px 16px;
+    min-width: 250px;
+    border-radius: 5px;
+    background-color: #333;
+    display: inline-block;
+    font-size: 17px;
+    &.danger {
+      background-color: #dd4b39;
+    }
+  }
+  &.show {
+    z-index: 900;
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  }
+}
+
+// loader settings
+.loader {
+  visibility: hidden;
+  color: #fff;
+  text-align: center;
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  top: 56px;
+  span {
+    padding: 10px 16px;
+    min-width: 250px;
+    border-radius: 5px;
+    background-color: #333;
+    display: inline-block;
+    font-size: 17px;
+  }
+  &.show {
+    z-index: 900;
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  }
+}
+
+/* Animations to fade the toast in and out */
+@-webkit-keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
+}
+
+@keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeout {
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
+}
+
+// Accounts create page
+.bs-glyphicons {
+  padding-left: 0;
+  padding-bottom: 1px;
+  margin-bottom: 20px;
+  list-style: none;
+  overflow: hidden;
+  a {
+    float: left;
+    width: 20%;
+    height: 90px;
+    padding: 10px;
+    margin: 0 -1px -1px 0;
+    font-size: 12px;
+    line-height: 1.4;
+    text-align: center;
+    border: 1px solid #ddd;
+    color: black;
+
+    &:hover, &:focus {
+      background-color: rgba(86, 61, 124, .1);
+    }
+
+    &.active {
+      color: white;
+      background: #3c8dbc;
+    }
+
+    @media (min-width: 768px) {
+      width: 16.66%;
+    }
+  }
+
+  .glyphicon {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    font-size: 24px;
+  }
+
+  .glyphicon-class {
+    display: block;
+    text-align: center;
+    word-wrap: break-word; /* Help out IE10+ with class names */
+  }
+}
+
+.modal-dialog {
+  max-width: 900px !important;
+  width: 100% !important;
+
+  @media print {
+    margin: 0 !important;
+    max-width: 100% !important;
+
+    .modal-header, .modal-footer {
+      display: none;
+    }
+  }
+}
+
+@media print {
+
+  // Hide the report page for print only model
+  #reports-form, .modal-header {
+    display: none !important;
+  }
+  .modal-open .modal {
+    position: relative;
+  }
+  .content-header {
+    display: block !important;
+  }
+  #reports-section .content-header {
+    display: none !important;
+  }
+
+  // Hide day book navigation, box header, breadcrumb, pagination and search bar
+  .day-book-nav, .box-header, .breadcrumb,
+  .dataTables_wrapper > div:first-child,
+  .dataTables_wrapper > div:last-child {
+    display: none;
+  }
+
+  // Hide the status column and footer
+  table:not([id^="reports_"]) {
+    tfoot {
+      display: none;
+    }
+    tr > th, tr > td {
+      &:last-of-type {
+        display: none;
+      }
+    }
+  }
+
+  // reduce the font size on time of print
+  table:not(#user_list):not(#account_list) {
+    tr > th, tr > td {
+      font-size: 11px;
+      input {
+        font-size: 11px;
+      }
+    }
+  }
+
+  // Hide the sort icon, select arrows and loaders
+  .loader, .toast,
+  thead .sorting:after,
+  thead .sorting_asc:after,
+  thead .sorting_desc:after,
+  thead .sorting_asc_disabled:after,
+  thead .sorting_desc_disabled:after,
+  .select2-selection__arrow,
+  .select2-selection__clear {
+    display: none !important;
+  }
+
+  // Width auto range of tables
+  #purchases_list, #sales_list, #ledger_list, #general_list,
+  #profit_list, #cartage_list, #cartage_documents_list {
+    tr > th, tr > td {
+      &:first-child, &:nth-of-type(2), &:nth-of-type(3), &:nth-of-type(4),
+      &:nth-of-type(5), &:nth-of-type(7), &:nth-of-type(9),
+      &:nth-of-type(6), &:nth-of-type(8) {
+        width: auto !important;
+      }
+    }
+  }
+
+  #purchases_list, #sales_list {
+    tr > th, tr > td {
+      &:nth-of-type(3) {
+        width: 100px !important;
+      }
+      &:nth-of-type(4), &:nth-of-type(5) {
+        width: 140px !important;
+      }
+    }
+  }
+  #ledger_list {
+    tr > th, tr > td {
+      &:nth-of-type(3) {
+        width: 140px !important;
+      }
+    }
+  }
+  #general_list, #profit_list {
+    tr > th, tr > td {
+      &:nth-of-type(3), &:nth-of-type(4) {
+        width: 140px !important;
+      }
+    }
+  }
+  #cartage_list {
+    tr > th, tr > td {
+      &:nth-of-type(4), &:nth-of-type(5) {
+        width: 140px !important;
+      }
+    }
+  }
+}

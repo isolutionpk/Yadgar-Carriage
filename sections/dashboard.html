@@ -1,0 +1,78 @@
+<template class="task-template">
+    <div class="contents js-section" id="dashboard-section">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                Dashboard
+                <small>Control panel</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li class="active">Dashboard</li>
+            </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+
+            <div class="row">
+                <div class="col-xs-12 col-md-8">
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Left in Stock</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <table id="dashboard_stock_left" class="table table-bordered"></table>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-4">
+                    <div class="box" id="dashboard_expire_documents_box">
+                        <div class="box-body">
+                            <p class="text-center">
+                                <strong>Expire documents</strong>
+                            </p>
+
+                            <div id="dashboard_expire_documents"></div>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                </div>
+            </div>
+            <!-- /.box -->
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="nav-tabs-custom chartTabs">
+                        <ul class="nav nav-tabs pull-right">
+                            <li class="active">
+                                <a href="#daily-profit-chart" id="daily-profit-chart-tab" data-toggle="tab">
+                                    Daily
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#monthly-profit-chart" id="monthly-profit-chart-tab" data-toggle="tab">
+                                    Monthly
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#yearly-profit-chart" id="yearly-profit-chart-tab" data-toggle="tab">
+                                    Yearly
+                                </a>
+                            </li>
+                            <li class="pull-left header"><i class="fa fa-inbox"></i> Profit and Loss</li>
+                        </ul>
+                        <div class="tab-content no-padding">
+                            <div class="chart tab-pane active" id="daily-profit-chart"></div>
+                            <div class="chart tab-pane" id="monthly-profit-chart"></div>
+                            <div class="chart tab-pane" id="yearly-profit-chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.box -->
+        </section>
+        <!-- /.content -->
+    </div>
+</template>

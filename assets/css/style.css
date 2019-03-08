@@ -1,0 +1,529 @@
+@font-face {
+  font-family: 'Source Sans Pro';
+  src: url("../fonts/SourceSansPro-Bold/SourceSansPro-Bold.eot?#iefix") format("embedded-opentype"), url("../fonts/SourceSansPro-Bold/SourceSansPro-Bold.woff") format("woff"), url("../fonts/SourceSansPro-Bold/SourceSansPro-Bold.ttf") format("truetype"), url("../fonts/SourceSansPro-Bold/SourceSansPro-Bold.svg#SourceSansPro-Bold") format("svg");
+  font-weight: 700;
+  font-style: normal; }
+@font-face {
+  font-family: 'Source Sans Pro';
+  src: url("../fonts/SourceSansPro-SemiBold/SourceSansPro-SemiBold.eot?#iefix") format("embedded-opentype"), url("../fonts/SourceSansPro-SemiBold/SourceSansPro-SemiBold.woff") format("woff"), url("../fonts/SourceSansPro-SemiBold/SourceSansPro-SemiBold.ttf") format("truetype"), url("../fonts/SourceSansPro-SemiBold/SourceSansPro-SemiBold.svg#SourceSansPro-SemiBold") format("svg");
+  font-weight: 600;
+  font-style: normal; }
+@font-face {
+  font-family: 'Source Sans Pro';
+  src: url("../fonts/SourceSansPro-Regular/SourceSansPro-Regular.eot?#iefix") format("embedded-opentype"), url("../fonts/SourceSansPro-Regular/SourceSansPro-Regular.woff") format("woff"), url("../fonts/SourceSansPro-Regular/SourceSansPro-Regular.ttf") format("truetype"), url("../fonts/SourceSansPro-Regular/SourceSansPro-Regular.svg#SourceSansPro-Regular") format("svg");
+  font-weight: 400;
+  font-style: normal; }
+@font-face {
+  font-family: 'Source Sans Pro';
+  src: url("../fonts/SourceSansPro-Light/SourceSansPro-Light.eot?#iefix") format("embedded-opentype"), url("../fonts/SourceSansPro-Light/SourceSansPro-Light.woff") format("woff"), url("../fonts/SourceSansPro-Light/SourceSansPro-Light.ttf") format("truetype"), url("../fonts/SourceSansPro-Light/SourceSansPro-Light.svg#SourceSansPro-Light") format("svg");
+  font-weight: 300;
+  font-style: normal; }
+.login-page {
+  position: inherit !important;
+  background: #00a65a; }
+  .login-page a {
+    color: white; }
+
+#google_translate_element {
+  margin-top: 12px; }
+
+@media screen and (min-width: 768px) {
+  header .navbar-brand {
+    display: none; }
+  header #navbar-collapse .nav > li > a {
+    padding: 5px 10px;
+    text-align: center; } }
+@media screen and (max-width: 768px) {
+  header .nav > li > a br {
+    display: none; } }
+.navbar-collapse.pull-left + .navbar-custom-menu {
+  right: 0 !important; }
+
+.day-book-nav {
+  padding: 15px; }
+  .day-book-nav a {
+    width: 20%;
+    color: black;
+    float: left;
+    font-size: 15px;
+    background: white;
+    line-height: 40px;
+    text-align: center;
+    border-right: 1px solid black; }
+    .day-book-nav a:last-of-type {
+      border-right: 0; }
+    .day-book-nav a:hover, .day-book-nav a.active {
+      color: white;
+      background: #00a65a; }
+
+.content-wrapper {
+  position: relative; }
+
+.contents {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateX(-20px);
+  transition: visibility 0s .12s linear, opacity .12s ease-in, transform .12s ease-in; }
+  @media print {
+    .contents {
+      display: none; } }
+
+.contents.is-shown {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(0);
+  transition: visibility 0s 0s linear, opacity .36s ease-out, transform .36s ease-out; }
+  @media print {
+    .contents.is-shown {
+      display: block;
+      position: relative; } }
+
+table.dataTable {
+  border-collapse: collapse;
+  width: 100% !important; }
+
+.table > thead:first-child > tr:first-child > td:focus,
+.table > thead:first-child > tr:first-child > th:focus {
+  z-index: 9; }
+
+#reports_list thead > tr > th, #supplier_reports_list thead > tr > th, #profit_reports_list thead > tr > th, #vehicle_reports_list thead > tr > th,
+#purchases_list thead > tr > th, #sales_list thead > tr > th, #ledger_list thead > tr > th, #general_list thead > tr > th,
+#profit_list thead > tr > th, #cartage_list thead > tr > th, #cartage_documents_list thead > tr > th {
+  padding: 3px 22px 3px 3px; }
+#reports_list thead .sorting:after,
+#reports_list thead .sorting_asc:after,
+#reports_list thead .sorting_desc:after,
+#reports_list thead .sorting_asc_disabled:after,
+#reports_list thead .sorting_desc_disabled:after, #supplier_reports_list thead .sorting:after,
+#supplier_reports_list thead .sorting_asc:after,
+#supplier_reports_list thead .sorting_desc:after,
+#supplier_reports_list thead .sorting_asc_disabled:after,
+#supplier_reports_list thead .sorting_desc_disabled:after, #profit_reports_list thead .sorting:after,
+#profit_reports_list thead .sorting_asc:after,
+#profit_reports_list thead .sorting_desc:after,
+#profit_reports_list thead .sorting_asc_disabled:after,
+#profit_reports_list thead .sorting_desc_disabled:after, #vehicle_reports_list thead .sorting:after,
+#vehicle_reports_list thead .sorting_asc:after,
+#vehicle_reports_list thead .sorting_desc:after,
+#vehicle_reports_list thead .sorting_asc_disabled:after,
+#vehicle_reports_list thead .sorting_desc_disabled:after,
+#purchases_list thead .sorting:after,
+#purchases_list thead .sorting_asc:after,
+#purchases_list thead .sorting_desc:after,
+#purchases_list thead .sorting_asc_disabled:after,
+#purchases_list thead .sorting_desc_disabled:after, #sales_list thead .sorting:after,
+#sales_list thead .sorting_asc:after,
+#sales_list thead .sorting_desc:after,
+#sales_list thead .sorting_asc_disabled:after,
+#sales_list thead .sorting_desc_disabled:after, #ledger_list thead .sorting:after,
+#ledger_list thead .sorting_asc:after,
+#ledger_list thead .sorting_desc:after,
+#ledger_list thead .sorting_asc_disabled:after,
+#ledger_list thead .sorting_desc_disabled:after, #general_list thead .sorting:after,
+#general_list thead .sorting_asc:after,
+#general_list thead .sorting_desc:after,
+#general_list thead .sorting_asc_disabled:after,
+#general_list thead .sorting_desc_disabled:after,
+#profit_list thead .sorting:after,
+#profit_list thead .sorting_asc:after,
+#profit_list thead .sorting_desc:after,
+#profit_list thead .sorting_asc_disabled:after,
+#profit_list thead .sorting_desc_disabled:after, #cartage_list thead .sorting:after,
+#cartage_list thead .sorting_asc:after,
+#cartage_list thead .sorting_desc:after,
+#cartage_list thead .sorting_asc_disabled:after,
+#cartage_list thead .sorting_desc_disabled:after, #cartage_documents_list thead .sorting:after,
+#cartage_documents_list thead .sorting_asc:after,
+#cartage_documents_list thead .sorting_desc:after,
+#cartage_documents_list thead .sorting_asc_disabled:after,
+#cartage_documents_list thead .sorting_desc_disabled:after {
+  right: 3px;
+  bottom: 3px; }
+
+#purchases_list tbody td, #purchases_list tfoot td, #sales_list tbody td, #sales_list tfoot td, #ledger_list tbody td, #ledger_list tfoot td, #general_list tbody td, #general_list tfoot td,
+#profit_list tbody td,
+#profit_list tfoot td, #cartage_list tbody td, #cartage_list tfoot td, #cartage_documents_list tbody td, #cartage_documents_list tfoot td {
+  padding: 0; }
+#purchases_list td input, #sales_list td input, #ledger_list td input, #general_list td input,
+#profit_list td input, #cartage_list td input, #cartage_documents_list td input {
+  padding: 3px;
+  width: 100% !important;
+  border: 1px solid transparent; }
+#purchases_list td input:disabled, #sales_list td input:disabled, #ledger_list td input:disabled, #general_list td input:disabled,
+#profit_list td input:disabled, #cartage_list td input:disabled, #cartage_documents_list td input:disabled {
+  background: inherit; }
+#purchases_list > tbody > tr:nth-of-type(odd) input, #purchases_list > tbody > tr:nth-of-type(odd) .select2-selection--single, #sales_list > tbody > tr:nth-of-type(odd) input, #sales_list > tbody > tr:nth-of-type(odd) .select2-selection--single, #ledger_list > tbody > tr:nth-of-type(odd) input, #ledger_list > tbody > tr:nth-of-type(odd) .select2-selection--single, #general_list > tbody > tr:nth-of-type(odd) input, #general_list > tbody > tr:nth-of-type(odd) .select2-selection--single,
+#profit_list > tbody > tr:nth-of-type(odd) input,
+#profit_list > tbody > tr:nth-of-type(odd) .select2-selection--single, #cartage_list > tbody > tr:nth-of-type(odd) input, #cartage_list > tbody > tr:nth-of-type(odd) .select2-selection--single, #cartage_documents_list > tbody > tr:nth-of-type(odd) input, #cartage_documents_list > tbody > tr:nth-of-type(odd) .select2-selection--single {
+  background-color: #f9f9f9; }
+#purchases_list td .padApply, #sales_list td .padApply, #ledger_list td .padApply, #general_list td .padApply,
+#profit_list td .padApply, #cartage_list td .padApply, #cartage_documents_list td .padApply {
+  padding: 3px; }
+#purchases_list td .padApply, #purchases_list tr > td:last-child, #sales_list td .padApply, #sales_list tr > td:last-child, #ledger_list td .padApply, #ledger_list tr > td:last-child, #general_list td .padApply, #general_list tr > td:last-child,
+#profit_list td .padApply,
+#profit_list tr > td:last-child, #cartage_list td .padApply, #cartage_list tr > td:last-child, #cartage_documents_list td .padApply, #cartage_documents_list tr > td:last-child {
+  line-height: 34px; }
+#purchases_list td .fa, #sales_list td .fa, #ledger_list td .fa, #general_list td .fa,
+#profit_list td .fa, #cartage_list td .fa, #cartage_documents_list td .fa {
+  padding: 3px;
+  font-size: 17px;
+  cursor: pointer; }
+#purchases_list td .fa-plus-square, #purchases_list td .fa-check-square-o, #sales_list td .fa-plus-square, #sales_list td .fa-check-square-o, #ledger_list td .fa-plus-square, #ledger_list td .fa-check-square-o, #general_list td .fa-plus-square, #general_list td .fa-check-square-o,
+#profit_list td .fa-plus-square,
+#profit_list td .fa-check-square-o, #cartage_list td .fa-plus-square, #cartage_list td .fa-check-square-o, #cartage_documents_list td .fa-plus-square, #cartage_documents_list td .fa-check-square-o {
+  color: #00a65a; }
+#purchases_list td .fa-pencil-square-o, #sales_list td .fa-pencil-square-o, #ledger_list td .fa-pencil-square-o, #general_list td .fa-pencil-square-o,
+#profit_list td .fa-pencil-square-o, #cartage_list td .fa-pencil-square-o, #cartage_documents_list td .fa-pencil-square-o {
+  color: #f39c12; }
+#purchases_list td .fa-exclamation-circle, #purchases_list td .fa-trash, #sales_list td .fa-exclamation-circle, #sales_list td .fa-trash, #ledger_list td .fa-exclamation-circle, #ledger_list td .fa-trash, #general_list td .fa-exclamation-circle, #general_list td .fa-trash,
+#profit_list td .fa-exclamation-circle,
+#profit_list td .fa-trash, #cartage_list td .fa-exclamation-circle, #cartage_list td .fa-trash, #cartage_documents_list td .fa-exclamation-circle, #cartage_documents_list td .fa-trash {
+  color: #dd4b39; }
+#purchases_list td a[data-delete]:focus .fa, #sales_list td a[data-delete]:focus .fa, #ledger_list td a[data-delete]:focus .fa, #general_list td a[data-delete]:focus .fa,
+#profit_list td a[data-delete]:focus .fa, #cartage_list td a[data-delete]:focus .fa, #cartage_documents_list td a[data-delete]:focus .fa {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.6); }
+#purchases_list .select2-container--default .select2-selection--single,
+#purchases_list .select2-selection .select2-selection--single, #sales_list .select2-container--default .select2-selection--single,
+#sales_list .select2-selection .select2-selection--single, #ledger_list .select2-container--default .select2-selection--single,
+#ledger_list .select2-selection .select2-selection--single, #general_list .select2-container--default .select2-selection--single,
+#general_list .select2-selection .select2-selection--single,
+#profit_list .select2-container--default .select2-selection--single,
+#profit_list .select2-selection .select2-selection--single, #cartage_list .select2-container--default .select2-selection--single,
+#cartage_list .select2-selection .select2-selection--single, #cartage_documents_list .select2-container--default .select2-selection--single,
+#cartage_documents_list .select2-selection .select2-selection--single {
+  padding: 3px;
+  border: 1px solid transparent; }
+#purchases_list td input:focus, #purchases_list .select2-container--focus .select2-selection--single, #sales_list td input:focus, #sales_list .select2-container--focus .select2-selection--single, #ledger_list td input:focus, #ledger_list .select2-container--focus .select2-selection--single, #general_list td input:focus, #general_list .select2-container--focus .select2-selection--single,
+#profit_list td input:focus,
+#profit_list .select2-container--focus .select2-selection--single, #cartage_list td input:focus, #cartage_list .select2-container--focus .select2-selection--single, #cartage_documents_list td input:focus, #cartage_documents_list .select2-container--focus .select2-selection--single {
+  box-shadow: none;
+  border-color: #3c8dbc; }
+@media screen and (max-width: 1000px) {
+  #purchases_list tr > th, #purchases_list tr > td, #sales_list tr > th, #sales_list tr > td, #ledger_list tr > th, #ledger_list tr > td, #general_list tr > th, #general_list tr > td,
+  #profit_list tr > th,
+  #profit_list tr > td, #cartage_list tr > th, #cartage_list tr > td, #cartage_documents_list tr > th, #cartage_documents_list tr > td {
+    font-size: 12px; }
+  #purchases_list .select2-container--default .select2-selection--single .select2-selection__arrow b, #sales_list .select2-container--default .select2-selection--single .select2-selection__arrow b, #ledger_list .select2-container--default .select2-selection--single .select2-selection__arrow b, #general_list .select2-container--default .select2-selection--single .select2-selection__arrow b,
+  #profit_list .select2-container--default .select2-selection--single .select2-selection__arrow b, #cartage_list .select2-container--default .select2-selection--single .select2-selection__arrow b, #cartage_documents_list .select2-container--default .select2-selection--single .select2-selection__arrow b {
+    margin-top: -3px; } }
+
+#purchases_list tr > th:first-child, #purchases_list tr > td:first-child {
+  width: 6% !important; }
+#purchases_list tr > th:nth-of-type(2), #purchases_list tr > td:nth-of-type(2) {
+  width: 14% !important; }
+#purchases_list tr > th:nth-of-type(3), #purchases_list tr > th:nth-of-type(4), #purchases_list tr > th:nth-of-type(5), #purchases_list tr > th:nth-of-type(7), #purchases_list tr > th:nth-of-type(9), #purchases_list tr > td:nth-of-type(3), #purchases_list tr > td:nth-of-type(4), #purchases_list tr > td:nth-of-type(5), #purchases_list tr > td:nth-of-type(7), #purchases_list tr > td:nth-of-type(9) {
+  width: 10% !important; }
+#purchases_list tr > th:nth-of-type(6), #purchases_list tr > th:nth-of-type(8), #purchases_list tr > td:nth-of-type(6), #purchases_list tr > td:nth-of-type(8) {
+  width: 15% !important; }
+
+#sales_list tr > th:first-child, #sales_list tr > td:first-child {
+  width: 6% !important; }
+#sales_list tr > th:nth-of-type(2), #sales_list tr > td:nth-of-type(2) {
+  width: 14% !important; }
+#sales_list tr > th:nth-of-type(3), #sales_list tr > th:nth-of-type(4), #sales_list tr > th:nth-of-type(5), #sales_list tr > th:nth-of-type(7), #sales_list tr > th:nth-of-type(8), #sales_list tr > th:nth-of-type(9), #sales_list tr > td:nth-of-type(3), #sales_list tr > td:nth-of-type(4), #sales_list tr > td:nth-of-type(5), #sales_list tr > td:nth-of-type(7), #sales_list tr > td:nth-of-type(8), #sales_list tr > td:nth-of-type(9) {
+  width: 10% !important; }
+#sales_list tr > th:nth-of-type(6), #sales_list tr > td:nth-of-type(6) {
+  width: 20% !important; }
+
+#ledger_list tr > th:first-child, #ledger_list tr > td:first-child {
+  width: 6% !important; }
+#ledger_list tr > th:nth-of-type(3), #ledger_list tr > th:nth-of-type(5), #ledger_list tr > td:nth-of-type(3), #ledger_list tr > td:nth-of-type(5) {
+  width: 14% !important; }
+#ledger_list tr > th:nth-of-type(2), #ledger_list tr > th:nth-of-type(4), #ledger_list tr > td:nth-of-type(2), #ledger_list tr > td:nth-of-type(4) {
+  width: 28% !important; }
+#ledger_list tr > th:nth-of-type(6), #ledger_list tr > td:nth-of-type(6) {
+  width: 10% !important; }
+
+#general_list tr > th:first-child, #general_list tr > td:first-child, #profit_list tr > th:first-child, #profit_list tr > td:first-child {
+  width: 6% !important; }
+#general_list tr > th:nth-of-type(3), #general_list tr > th:nth-of-type(4), #general_list tr > td:nth-of-type(3), #general_list tr > td:nth-of-type(4), #profit_list tr > th:nth-of-type(3), #profit_list tr > th:nth-of-type(4), #profit_list tr > td:nth-of-type(3), #profit_list tr > td:nth-of-type(4) {
+  width: 14% !important; }
+#general_list tr > th:nth-of-type(2), #general_list tr > th:nth-of-type(5), #general_list tr > td:nth-of-type(2), #general_list tr > td:nth-of-type(5), #profit_list tr > th:nth-of-type(2), #profit_list tr > th:nth-of-type(5), #profit_list tr > td:nth-of-type(2), #profit_list tr > td:nth-of-type(5) {
+  width: 28% !important; }
+#general_list tr > th:nth-of-type(6), #general_list tr > td:nth-of-type(6), #profit_list tr > th:nth-of-type(6), #profit_list tr > td:nth-of-type(6) {
+  width: 10% !important; }
+
+#cartage_list tr > th:first-child, #cartage_list tr > td:first-child {
+  width: 6% !important; }
+#cartage_list tr > th:nth-of-type(4), #cartage_list tr > th:nth-of-type(5), #cartage_list tr > td:nth-of-type(4), #cartage_list tr > td:nth-of-type(5) {
+  width: 14% !important; }
+#cartage_list tr > th:nth-of-type(2), #cartage_list tr > th:nth-of-type(6), #cartage_list tr > td:nth-of-type(2), #cartage_list tr > td:nth-of-type(6) {
+  width: 20% !important; }
+#cartage_list tr > th:nth-of-type(3), #cartage_list tr > td:nth-of-type(3) {
+  width: 16% !important; }
+#cartage_list tr > th:nth-of-type(7), #cartage_list tr > td:nth-of-type(7) {
+  width: 10% !important; }
+
+#cartage_documents_list tr > th, #cartage_documents_list tr > td {
+  width: 10%; }
+  #cartage_documents_list tr > th:first-child, #cartage_documents_list tr > td:first-child {
+    width: 6% !important; }
+  #cartage_documents_list tr > th:nth-of-type(2), #cartage_documents_list tr > td:nth-of-type(2) {
+    width: 14% !important; }
+
+#reports-section .box-footer {
+  padding-top: 0; }
+  #reports-section .box-footer button {
+    width: 120px;
+    margin-top: 10px; }
+
+#report-information, #supplier-report-information,
+#profit-report-information, #vehicle-report-information {
+  margin: 10px 0; }
+
+#reports_list tbody td, #reports_list tfoot td, #supplier_reports_list tbody td, #supplier_reports_list tfoot td, #profit_reports_list tbody td, #profit_reports_list tfoot td, #vehicle_reports_list tbody td, #vehicle_reports_list tfoot td {
+  padding: 3px; }
+
+#reports_list tr > th:first-child, #reports_list tr > td:first-child, #profit_reports_list tr > th:first-child, #profit_reports_list tr > td:first-child, #vehicle_reports_list tr > th:first-child, #vehicle_reports_list tr > td:first-child {
+  width: 6% !important; }
+#reports_list tr > th:nth-of-type(2), #reports_list tr > td:nth-of-type(2), #profit_reports_list tr > th:nth-of-type(2), #profit_reports_list tr > td:nth-of-type(2), #vehicle_reports_list tr > th:nth-of-type(2), #vehicle_reports_list tr > td:nth-of-type(2) {
+  width: 14% !important; }
+#reports_list tr > th:nth-of-type(3), #reports_list tr > td:nth-of-type(3), #profit_reports_list tr > th:nth-of-type(3), #profit_reports_list tr > td:nth-of-type(3), #vehicle_reports_list tr > th:nth-of-type(3), #vehicle_reports_list tr > td:nth-of-type(3) {
+  width: 35% !important; }
+#reports_list tr > th:nth-of-type(4), #reports_list tr > th:nth-of-type(5), #reports_list tr > th:nth-of-type(6), #reports_list tr > td:nth-of-type(4), #reports_list tr > td:nth-of-type(5), #reports_list tr > td:nth-of-type(6), #profit_reports_list tr > th:nth-of-type(4), #profit_reports_list tr > th:nth-of-type(5), #profit_reports_list tr > th:nth-of-type(6), #profit_reports_list tr > td:nth-of-type(4), #profit_reports_list tr > td:nth-of-type(5), #profit_reports_list tr > td:nth-of-type(6), #vehicle_reports_list tr > th:nth-of-type(4), #vehicle_reports_list tr > th:nth-of-type(5), #vehicle_reports_list tr > th:nth-of-type(6), #vehicle_reports_list tr > td:nth-of-type(4), #vehicle_reports_list tr > td:nth-of-type(5), #vehicle_reports_list tr > td:nth-of-type(6) {
+  width: 15% !important; }
+
+#supplier_reports_list tr > th:nth-of-type(1), #supplier_reports_list tr > td:nth-of-type(1) {
+  width: 30% !important; }
+#supplier_reports_list tr > th:nth-of-type(2), #supplier_reports_list tr > td:nth-of-type(2) {
+  width: 50% !important; }
+#supplier_reports_list tr > th:nth-of-type(3), #supplier_reports_list tr > td:nth-of-type(3) {
+  width: 20% !important; }
+
+.select2 {
+  width: 100% !important; }
+
+.select2-container--open .select2-dropdown--below,
+.select2-container--open .select2-dropdown--above {
+  width: 300px !important; }
+
+.select2-results__options li span {
+  overflow: hidden;
+  line-height: 15px;
+  white-space: nowrap;
+  text-overflow: ellipsis; }
+.select2-results__options li > div > span:first-child {
+  width: 50%;
+  float: left; }
+.select2-results__options li > div > span:last-child {
+  width: 50%;
+  float: right;
+  text-align: right; }
+.select2-results__options li > span {
+  width: 100%; }
+
+#report-calendar {
+  position: relative !important;
+  display: inline-block;
+  margin: 0 auto;
+  z-index: 100; }
+  #report-calendar > div {
+    top: 0 !important;
+    left: 0 !important;
+    display: block !important;
+    position: relative !important; }
+
+.modal-backdrop.fade.in {
+  z-index: 1; }
+
+.toast {
+  visibility: hidden;
+  color: #fff;
+  text-align: center;
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  top: 56px; }
+  .toast span {
+    padding: 10px 16px;
+    min-width: 250px;
+    border-radius: 5px;
+    background-color: #333;
+    display: inline-block;
+    font-size: 17px; }
+    .toast span.danger {
+      background-color: #dd4b39; }
+  .toast.show {
+    z-index: 900;
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s; }
+
+.loader {
+  visibility: hidden;
+  color: #fff;
+  text-align: center;
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  top: 56px; }
+  .loader span {
+    padding: 10px 16px;
+    min-width: 250px;
+    border-radius: 5px;
+    background-color: #333;
+    display: inline-block;
+    font-size: 17px; }
+  .loader.show {
+    z-index: 900;
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s; }
+
+/* Animations to fade the toast in and out */
+@-webkit-keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0; }
+  to {
+    bottom: 30px;
+    opacity: 1; } }
+@keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0; }
+  to {
+    bottom: 30px;
+    opacity: 1; } }
+@-webkit-keyframes fadeout {
+  from {
+    bottom: 30px;
+    opacity: 1; }
+  to {
+    bottom: 0;
+    opacity: 0; } }
+@keyframes fadeout {
+  from {
+    bottom: 30px;
+    opacity: 1; }
+  to {
+    bottom: 0;
+    opacity: 0; } }
+.bs-glyphicons {
+  padding-left: 0;
+  padding-bottom: 1px;
+  margin-bottom: 20px;
+  list-style: none;
+  overflow: hidden; }
+  .bs-glyphicons a {
+    float: left;
+    width: 20%;
+    height: 90px;
+    padding: 10px;
+    margin: 0 -1px -1px 0;
+    font-size: 12px;
+    line-height: 1.4;
+    text-align: center;
+    border: 1px solid #ddd;
+    color: black; }
+    .bs-glyphicons a:hover, .bs-glyphicons a:focus {
+      background-color: rgba(86, 61, 124, 0.1); }
+    .bs-glyphicons a.active {
+      color: white;
+      background: #3c8dbc; }
+    @media (min-width: 768px) {
+      .bs-glyphicons a {
+        width: 16.66%; } }
+  .bs-glyphicons .glyphicon {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    font-size: 24px; }
+  .bs-glyphicons .glyphicon-class {
+    display: block;
+    text-align: center;
+    word-wrap: break-word;
+    /* Help out IE10+ with class names */ }
+
+.modal-dialog {
+  max-width: 900px !important;
+  width: 100% !important; }
+  @media print {
+    .modal-dialog {
+      margin: 0 !important;
+      max-width: 100% !important; }
+      .modal-dialog .modal-header, .modal-dialog .modal-footer {
+        display: none; } }
+
+@media print {
+  #reports-form, .modal-header {
+    display: none !important; }
+
+  .modal-open .modal {
+    position: relative; }
+
+  .content-header {
+    display: block !important; }
+
+  #reports-section .content-header {
+    display: none !important; }
+
+  .day-book-nav, .box-header, .breadcrumb,
+  .dataTables_wrapper > div:first-child,
+  .dataTables_wrapper > div:last-child {
+    display: none; }
+
+  table:not([id^="reports_"]) tfoot {
+    display: none; }
+  table:not([id^="reports_"]) tr > th:last-of-type, table:not([id^="reports_"]) tr > td:last-of-type {
+    display: none; }
+
+  table:not(#user_list):not(#account_list) tr > th, table:not(#user_list):not(#account_list) tr > td {
+    font-size: 11px; }
+    table:not(#user_list):not(#account_list) tr > th input, table:not(#user_list):not(#account_list) tr > td input {
+      font-size: 11px; }
+
+  .loader, .toast,
+  thead .sorting:after,
+  thead .sorting_asc:after,
+  thead .sorting_desc:after,
+  thead .sorting_asc_disabled:after,
+  thead .sorting_desc_disabled:after,
+  .select2-selection__arrow,
+  .select2-selection__clear {
+    display: none !important; }
+
+  #purchases_list tr > th:first-child, #purchases_list tr > th:nth-of-type(2), #purchases_list tr > th:nth-of-type(3), #purchases_list tr > th:nth-of-type(4), #purchases_list tr > th:nth-of-type(5), #purchases_list tr > th:nth-of-type(7), #purchases_list tr > th:nth-of-type(9), #purchases_list tr > th:nth-of-type(6), #purchases_list tr > th:nth-of-type(8), #purchases_list tr > td:first-child, #purchases_list tr > td:nth-of-type(2), #purchases_list tr > td:nth-of-type(3), #purchases_list tr > td:nth-of-type(4), #purchases_list tr > td:nth-of-type(5), #purchases_list tr > td:nth-of-type(7), #purchases_list tr > td:nth-of-type(9), #purchases_list tr > td:nth-of-type(6), #purchases_list tr > td:nth-of-type(8), #sales_list tr > th:first-child, #sales_list tr > th:nth-of-type(2), #sales_list tr > th:nth-of-type(3), #sales_list tr > th:nth-of-type(4), #sales_list tr > th:nth-of-type(5), #sales_list tr > th:nth-of-type(7), #sales_list tr > th:nth-of-type(9), #sales_list tr > th:nth-of-type(6), #sales_list tr > th:nth-of-type(8), #sales_list tr > td:first-child, #sales_list tr > td:nth-of-type(2), #sales_list tr > td:nth-of-type(3), #sales_list tr > td:nth-of-type(4), #sales_list tr > td:nth-of-type(5), #sales_list tr > td:nth-of-type(7), #sales_list tr > td:nth-of-type(9), #sales_list tr > td:nth-of-type(6), #sales_list tr > td:nth-of-type(8), #ledger_list tr > th:first-child, #ledger_list tr > th:nth-of-type(2), #ledger_list tr > th:nth-of-type(3), #ledger_list tr > th:nth-of-type(4), #ledger_list tr > th:nth-of-type(5), #ledger_list tr > th:nth-of-type(7), #ledger_list tr > th:nth-of-type(9), #ledger_list tr > th:nth-of-type(6), #ledger_list tr > th:nth-of-type(8), #ledger_list tr > td:first-child, #ledger_list tr > td:nth-of-type(2), #ledger_list tr > td:nth-of-type(3), #ledger_list tr > td:nth-of-type(4), #ledger_list tr > td:nth-of-type(5), #ledger_list tr > td:nth-of-type(7), #ledger_list tr > td:nth-of-type(9), #ledger_list tr > td:nth-of-type(6), #ledger_list tr > td:nth-of-type(8), #general_list tr > th:first-child, #general_list tr > th:nth-of-type(2), #general_list tr > th:nth-of-type(3), #general_list tr > th:nth-of-type(4), #general_list tr > th:nth-of-type(5), #general_list tr > th:nth-of-type(7), #general_list tr > th:nth-of-type(9), #general_list tr > th:nth-of-type(6), #general_list tr > th:nth-of-type(8), #general_list tr > td:first-child, #general_list tr > td:nth-of-type(2), #general_list tr > td:nth-of-type(3), #general_list tr > td:nth-of-type(4), #general_list tr > td:nth-of-type(5), #general_list tr > td:nth-of-type(7), #general_list tr > td:nth-of-type(9), #general_list tr > td:nth-of-type(6), #general_list tr > td:nth-of-type(8),
+  #profit_list tr > th:first-child,
+  #profit_list tr > th:nth-of-type(2),
+  #profit_list tr > th:nth-of-type(3),
+  #profit_list tr > th:nth-of-type(4),
+  #profit_list tr > th:nth-of-type(5),
+  #profit_list tr > th:nth-of-type(7),
+  #profit_list tr > th:nth-of-type(9),
+  #profit_list tr > th:nth-of-type(6),
+  #profit_list tr > th:nth-of-type(8),
+  #profit_list tr > td:first-child,
+  #profit_list tr > td:nth-of-type(2),
+  #profit_list tr > td:nth-of-type(3),
+  #profit_list tr > td:nth-of-type(4),
+  #profit_list tr > td:nth-of-type(5),
+  #profit_list tr > td:nth-of-type(7),
+  #profit_list tr > td:nth-of-type(9),
+  #profit_list tr > td:nth-of-type(6),
+  #profit_list tr > td:nth-of-type(8), #cartage_list tr > th:first-child, #cartage_list tr > th:nth-of-type(2), #cartage_list tr > th:nth-of-type(3), #cartage_list tr > th:nth-of-type(4), #cartage_list tr > th:nth-of-type(5), #cartage_list tr > th:nth-of-type(7), #cartage_list tr > th:nth-of-type(9), #cartage_list tr > th:nth-of-type(6), #cartage_list tr > th:nth-of-type(8), #cartage_list tr > td:first-child, #cartage_list tr > td:nth-of-type(2), #cartage_list tr > td:nth-of-type(3), #cartage_list tr > td:nth-of-type(4), #cartage_list tr > td:nth-of-type(5), #cartage_list tr > td:nth-of-type(7), #cartage_list tr > td:nth-of-type(9), #cartage_list tr > td:nth-of-type(6), #cartage_list tr > td:nth-of-type(8), #cartage_documents_list tr > th:first-child, #cartage_documents_list tr > th:nth-of-type(2), #cartage_documents_list tr > th:nth-of-type(3), #cartage_documents_list tr > th:nth-of-type(4), #cartage_documents_list tr > th:nth-of-type(5), #cartage_documents_list tr > th:nth-of-type(7), #cartage_documents_list tr > th:nth-of-type(9), #cartage_documents_list tr > th:nth-of-type(6), #cartage_documents_list tr > th:nth-of-type(8), #cartage_documents_list tr > td:first-child, #cartage_documents_list tr > td:nth-of-type(2), #cartage_documents_list tr > td:nth-of-type(3), #cartage_documents_list tr > td:nth-of-type(4), #cartage_documents_list tr > td:nth-of-type(5), #cartage_documents_list tr > td:nth-of-type(7), #cartage_documents_list tr > td:nth-of-type(9), #cartage_documents_list tr > td:nth-of-type(6), #cartage_documents_list tr > td:nth-of-type(8) {
+    width: auto !important; }
+
+  #purchases_list tr > th:nth-of-type(3), #purchases_list tr > td:nth-of-type(3), #sales_list tr > th:nth-of-type(3), #sales_list tr > td:nth-of-type(3) {
+    width: 100px !important; }
+  #purchases_list tr > th:nth-of-type(4), #purchases_list tr > th:nth-of-type(5), #purchases_list tr > td:nth-of-type(4), #purchases_list tr > td:nth-of-type(5), #sales_list tr > th:nth-of-type(4), #sales_list tr > th:nth-of-type(5), #sales_list tr > td:nth-of-type(4), #sales_list tr > td:nth-of-type(5) {
+    width: 140px !important; }
+
+  #ledger_list tr > th:nth-of-type(3), #ledger_list tr > td:nth-of-type(3) {
+    width: 140px !important; }
+
+  #general_list tr > th:nth-of-type(3), #general_list tr > th:nth-of-type(4), #general_list tr > td:nth-of-type(3), #general_list tr > td:nth-of-type(4), #profit_list tr > th:nth-of-type(3), #profit_list tr > th:nth-of-type(4), #profit_list tr > td:nth-of-type(3), #profit_list tr > td:nth-of-type(4) {
+    width: 140px !important; }
+
+  #cartage_list tr > th:nth-of-type(4), #cartage_list tr > th:nth-of-type(5), #cartage_list tr > td:nth-of-type(4), #cartage_list tr > td:nth-of-type(5) {
+    width: 140px !important; } }
+
+/*# sourceMappingURL=style.css.map */

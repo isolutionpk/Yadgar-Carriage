@@ -1,0 +1,71 @@
+<template class="task-template">
+    <div class="contents js-section" id="user-profile-section">
+
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>Profile</h1>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="javascript:;" id="dashboard" data-section="dashboard">
+                        <i class="fa fa-dashboard"></i> Dashboard
+                    </a>
+                </li>
+                <li class="active">Profile</li>
+            </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <!-- general form elements -->
+            <form id="user-profile-form">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Profile Information</h3>
+                        <div class="pull-right">
+                            <a href="javascript:;" onclick="window.print()">
+                                <i class="fa fa-print"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="user-profile-name">Name</label>
+                                    <input type="text" class="form-control" name="name" id="user-profile-name"
+                                           required="required">
+                                    <input type="hidden" name="id">
+                                    <input type="hidden" name="user_name">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="user-profile-password">Password</label>
+                                    <input type="password" class="form-control" name="password"
+                                           id="user-profile-password" data-fillable="false">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="user-profile-confirm_password">Confirm Password</label>
+                                    <input type="password" class="form-control" name="confirm_password"
+                                           id="user-profile-confirm_password" data-fillable="false">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
+                    <!-- /.box-footer -->
+                </div>
+                <!-- /.box -->
+            </form>
+        </section>
+        <!-- /.content -->
+    </div>
+</template>

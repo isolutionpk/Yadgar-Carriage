@@ -1,0 +1,30 @@
+<template class="task-template">
+    <div class="contents js-section login-box" id="database-section">
+
+        <div class="login-logo">
+            <a href="javascript:;"><b>Yadgar</b>Carriage</a>
+        </div>
+
+        <!-- /.login-logo -->
+        <div class="login-box-body" id="connection-not-found">
+            <p class="login-box-msg">Sorry we didn't find connection!</p>
+
+            <form method="post">
+                <button type="submit" class="btn btn-warning btn-block btn-flat">Reload</button>
+            </form>
+        </div>
+        <div class="login-box-body hide" id="database-not-found">
+            <p class="login-box-msg">Sorry we didn't find database!</p>
+            <p class="login-box-msg">You want to create new Database ?</p>
+            <button type="button" id="create-database" class="btn btn-primary btn-block btn-flat">Yes</button>
+            <p class="login-box-msg text-center"><br/>Or</p>
+            <div>
+                <label for="sql-file-import">Select Backup file</label>
+                <input type="file" name="sql-file-import" accept=".sql" id="sql-file-import">
+                <br/>
+                <div class="clearfix"></div>
+                <button class="btn btn-success btn-block btn-flat" id="sql-file-import-btn">Upload</button>
+            </div>
+        </div>
+    </div>
+</template>

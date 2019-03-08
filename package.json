@@ -1,0 +1,41 @@
+{
+  "name": "yadgar-carriage",
+  "version": "1.0.0",
+  "description": "A Petrol Carriage Company",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "package:mac": "electron-packager . --asar --overwrite --platform=darwin --arch=x64 --out=out --icon=assets/app-icon/mac/app.icns --osx-sign.identity='Developer ID Application: GitHub' --extend-info=assets/mac/info.plist",
+    "package:win32": "electron-packager . --asar --overwrite --platform=win32 --arch=ia32 --out=out --icon=assets/app-icon/win/app.ico",
+    "package:win64": "electron-packager . --asar --overwrite --platform=win32 --arch=x64 --out=out --icon=assets/app-icon/win/app.ico",
+    "package:installer": "node ./script/installer.js"
+  },
+  "repository": "https://github.com/isolutionpk/Yadgar-Carriage",
+  "keywords": [
+    "Electron",
+    "quick",
+    "start",
+    "tutorial",
+    "demo"
+  ],
+  "author": "GitHub",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^4.0.7",
+    "electron-packager": "^13.1.1",
+    "electron-winstaller": "^3.0.4"
+  },
+  "dependencies": {
+    "electron-settings": "^3.2.0",
+    "electron-squirrel-startup": "^1.0.0",
+    "file-saver": "^2.0.1",
+    "jspdf": "^1.5.3",
+    "jspdf-autotable": "^3.0.13",
+    "moment": "^2.24.0",
+    "mysql": "^2.16.0",
+    "mysqldump": "^2.2.1",
+    "node-machine-id": "^1.1.10",
+    "node-serialize": "0.0.4",
+    "xlsx": "^0.14.1"
+  }
+}

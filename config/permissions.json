@@ -1,0 +1,18 @@
+{
+  "daybook": {
+    "write": true
+  },
+  "cartageBilling": {
+    "write": true
+  },
+  "cartageDocuments": {
+    "write": true
+  },
+  "accounts": {
+    "read": true,
+    "write": true
+  },
+  "reports": {
+    "read": true
+  }
+}

@@ -1,0 +1,71 @@
+<template class="task-template">
+    <div class="contents js-section" id="ledger-accounts-section">
+
+        <!-- Day Book Navigation Menu -->
+        <div class="day-book-nav">
+            <a href="javascript:;" id="purchases-accounts3" data-section="purchases-accounts">
+                <i class="fa fa-shopping-cart"></i> Purchases
+            </a>
+            <a href="javascript:;" id="sales-accounts3" data-section="sales-accounts">
+                <i class="fa fa-signal"></i> Sales
+            </a>
+            <a href="javascript:;" id="ledger-accounts3" data-section="ledger-accounts" class="active">
+                <i class="fa fa-book"></i> Debit/Credit
+            </a>
+            <a href="javascript:;" id="general-accounts3" data-section="general-accounts">
+                <i class="fa fa-list-alt"></i> General
+            </a>
+            <a href="javascript:;" id="profit-loss3" data-section="profit-loss">
+                <i class="fa fa-money"></i> Profit and Loss
+            </a>
+            <div class="clearfix"></div>
+        </div>
+
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                Debit/Credit
+                <small>Account</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="javascript:;" id="dashboard" data-section="dashboard">
+                        <i class="fa fa-dashboard"></i> Dashboard
+                    </a>
+                </li>
+                <li class="active">Debit/Credit</li>
+            </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="box">
+                <div class="box-header">
+                    <form class="form-inline pull-left" id="ledger-filter-form">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="ledger-start-date" placeholder="start date">
+                            <div class="input-group-addon">to</div>
+                            <input type="text" class="form-control" id="ledger-end-date" placeholder="end date">
+                        </div>
+                        <input type="submit" value="Filter" class="btn btn-success">
+                    </form>
+                    <div class="pull-left" style="margin-left: 10px;">
+                        <input type="text" class="form-control" id="ledger-created-date" placeholder="Creating date">
+                    </div>
+                    <div class="btn pull-right">
+                        <a href="javascript:;" onclick="window.print()">
+                            <i class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table id="ledger_list" class="table table-bordered table-striped datatable"></table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </section>
+        <!-- /.content -->
+    </div>
+</template>

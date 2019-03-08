@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Yadgar Carriage</title>
+
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="bower_components/bootstrap-daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="bower_components/select2/dist/css/select2.min.css">
+    <link rel="stylesheet" href="assets/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="assets/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="bower_components/morris.js/morris.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <link rel="import" href="sections/database.html">
+    <link rel="import" href="sections/login.html">
+    <link rel="import" href="sections/dashboard.html">
+    <link rel="import" href="sections/user/index.html">
+    <link rel="import" href="sections/user/edit.html">
+    <link rel="import" href="sections/user/add.html">
+    <link rel="import" href="sections/user/profile.html">
+    <link rel="import" href="sections/account/index.html">
+    <link rel="import" href="sections/account/edit.html">
+    <link rel="import" href="sections/account/add.html">
+    <link rel="import" href="sections/purchase.html">
+    <link rel="import" href="sections/sales.html">
+    <link rel="import" href="sections/ledger.html">
+    <link rel="import" href="sections/general.html">
+    <link rel="import" href="sections/profits.html">
+    <link rel="import" href="sections/cartage/billing.html">
+    <link rel="import" href="sections/cartage/documents.html">
+    <link rel="import" href="sections/reports.html">
+    <link rel="import" href="sections/status.html">
+
+    <script src="helpers/helper.js"></script>
+    <script src="helpers/html.js"></script>
+    <script src="../electron-api-demos/main.js"></script>
+</head>
+
+<body class="hold-transition skin-green-light layout-top-nav">
+<!-- Displaying messages and error -->
+<div id="loader" class="loader"><span>Loading...</span></div>
+<div id="toast" class="toast"><span></span></div>
+
+<div class="wrapper">
+    <header class="main-header">
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top">
+            <div class="navbar-header">
+                <a href="javascript:;" class="navbar-brand"><b>Yadgar</b> Carriage</a>
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#navbar-collapse">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+                <ul class="nav navbar-nav">
+
+                    <li class="nav-button">
+                        <a href="javascript:;" id="dashboard" data-section="dashboard">
+                            <i class="fa fa-dashboard"></i><br/> Dashboard
+                        </a>
+                    </li>
+
+                    <li class="nav-button">
+                        <a href="javascript:;" id="purchases-day-book" data-section="purchases-accounts">
+                            <i class="fa fa-shopping-cart"></i><br/> Day Book
+                        </a>
+                    </li>
+
+                    <li class="dropdown" id="vehicle-tree-nav">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-truck"></i><br/> Vehicle <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li class="nav-button">
+                                <a href="javascript:;" id="cartage-billing" data-section="cartage-billing">
+                                    <i class="fa fa-circle-o"></i> Vehicle Billing
+                                </a>
+                            </li>
+
+                            <li class="nav-button">
+                                <a href="javascript:;" id="cartage-documents" data-section="cartage-documents">
+                                    <i class="fa fa-circle-o"></i> Vehicle Documents
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown" id="account-tree-nav">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-users"></i><br/> Accounts <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li class="nav-button">
+                                <a href="javascript:;" id="account-index" data-section="account-index">
+                                    <i class="fa fa-circle-o"></i> List
+                                </a>
+                            </li>
+                            <li class="nav-button">
+                                <a href="javascript:;" id="account-add" data-section="account-add">
+                                    <i class="fa fa-circle-o"></i> Add New
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-button">
+                        <a href="javascript:;" id="reports" data-section="reports">
+                            <i class="fa fa-bar-chart"></i><br/> Reports
+                        </a>
+                    </li>
+
+                    <li class="dropdown" id="user-tree-nav">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-users"></i><br/> Users <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li class="nav-button">
+                                <a href="javascript:;" id="user-index" data-section="user-index">
+                                    <i class="fa fa-circle-o"></i> Users List
+                                </a>
+                            </li>
+                            <li class="nav-button">
+                                <a href="javascript:;" id="user-add" data-section="user-add">
+                                    <i class="fa fa-circle-o"></i> Add New User
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-button">
+                        <a href="javascript:;" id="status" data-section="status">
+                            <i class="fa fa-gear"></i><br/> Status
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <div id="google_translate_element"></div>
+                    </li>
+                    <li class="dropdown user user-menu" id="user-logged-information">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="assets/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                            <span class="hidden-xs">Alexander Pierce</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!-- User image -->
+                            <li class="user-header">
+                                <img src="assets/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+
+                                <p>
+                                    Alexander Pierce - Web Developer
+                                    <small>Member since Nov. 2012</small>
+                                </p>
+                            </li>
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <div class="pull-left">
+                                    <a href="javascript:;" id="user-profile-null" data-section="user-profile"
+                                       class="btn btn-default btn-flat btn-profile">Profile</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a href="javascript:;" id="user-logout" class="btn btn-default btn-flat">
+                                        Sign out
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside1 class="main-sidebar12 hide">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+            <!-- Sidebar user panel -->
+            <div class="user-panel">
+                <div class="pull-left image">
+                    <img src="assets/img/user2-160x160.png" class="img-circle" alt="User Image">
+                </div>
+                <div class="pull-left info">
+                    <p>Alexander Pierce</p>
+                    <a id="nav_status"><i class="fa fa-circle text-danger"></i> Offline</a>
+                </div>
+            </div>
+            <!-- search form -->
+            <form action="#" method="get" class="sidebar-form hide">
+                <div class="input-group">
+                    <input type="text" name="q" class="form-control" placeholder="Search...">
+                    <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                </button>
+              </span>
+                </div>
+            </form>
+            <!-- /.search form -->
+        </section>
+        <!-- /.sidebar -->
+    </aside1>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <main class="content js-content"></main>
+    </div>
+
+    <!-- Add the sidebar's background. This div must be placed
+         immediately after the control sidebar -->
+    <div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper -->
+
+<script>
+    // You can also require other files to run in this process
+    require('./helpers/imports')
+    require('./helpers/ex-links')
+    require('./helpers/nav')
+    require('./helpers/online')
+    require('./helpers/server')
+    // require('./renderer.js')
+    //require('./db_connection.js')
+    //require('./config/db.js')
+</script>
+
+<!-- Insert this line above script imports  -->
+<script>if (typeof module === 'object') {
+    window.module = module;
+    module        = undefined;
+}</script>
+<!-- jQuery 3 -->
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+    $.widget.bridge('uibutton', $.ui.button);
+</script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- Slimscroll -->
+<script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="bower_components/fastclick/lib/fastclick.js"></script>
+<!-- DataTables -->
+<script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<!-- bootstrap datepicker -->
+<script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<!-- date-range-picker -->
+<script src="bower_components/moment/min/moment.min.js"></script>
+<script src="bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+<!-- Select2 -->
+<script src="bower_components/select2/dist/js/select2.full.min.js"></script>
+<!-- AdminLTE App -->
+<script src="assets/js/adminlte.min.js"></script>
+<!-- page script -->
+
+<script src="bower_components/raphael/raphael.min.js"></script>
+<script src="bower_components/morris.js/morris.min.js"></script>
+<script>
+    $(function () {
+        initDateRangePicker('#purchases-start-date', '#purchases-end-date')
+        initDateRangePicker('#sales-start-date', '#sales-end-date')
+        initDateRangePicker('#ledger-start-date', '#ledger-end-date')
+        initDateRangePicker('#general-start-date', '#general-end-date')
+        initDateRangePicker('#profit-start-date', '#profit-end-date')
+        initDateRangePicker('#cartage-start-date', '#cartage-end-date')
+        initDateRangePicker('#cartage-documents-start-date', '#cartage-documents-end-date')
+        initDateRangePicker('#report-start-date', '#report-end-date')
+        initDateRangePicker('#profit-report-start-date', '#profit-report-end-date')
+        initDateRangePicker('#vehicle-report-start-date', '#vehicle-report-end-date')
+
+        initDatePicker('#supplier-report-date')
+        initDatePicker('#purchases-created-date')
+        initDatePicker('#sales-created-date')
+        initDatePicker('#ledger-created-date')
+        initDatePicker('#general-created-date')
+        initDatePicker('#profit-created-date')
+        initDatePicker('#cartage-created-date')
+
+        /* Create an array with the values of all the input boxes in a column */
+        $.fn.dataTable.ext.order['dom-text'] = function (settings, col) {
+            return this.api().column(col, {order: 'index'}).nodes().map(function (td, i) {
+                console.log($('input', td).val());
+                return $('input', td).val();
+            });
+        };
+
+        /* Create an array with the values of all the input boxes in a column, parsed as numbers */
+        $.fn.dataTable.ext.order['dom-text-numeric'] = function (settings, col) {
+            return this.api().column(col, {order: 'index'}).nodes().map(function (td, i) {
+                return $('input', td).val() * 1;
+            });
+        };
+
+        //todo: select is not working
+        /* Create an array with the values of all the select options in a column */
+        $.fn.dataTable.ext.order['dom-select'] = function (settings, col) {
+            return this.api().column(col, {order: 'index'}).nodes().map(function (td, i) {
+                // $('select', td).val() change with new to solve select2
+
+//                var str = $('select', td).children("option:selected").html().split('|')[0];
+//                console.log('html', $('select', td).children("option:selected").html());
+//                console.log('text', $('select', td).find(":selected").text());
+//                console.log(str);
+                return $('select', td).find(":selected").text();
+//                return str.replace(/\s/g, '');
+            });
+        };
+
+        /* Create an array with the values of all the checkboxes in a column */
+        $.fn.dataTable.ext.order['dom-checkbox'] = function (settings, col) {
+            return this.api().column(col, {order: 'index'}).nodes().map(function (td, i) {
+                return $('input', td).prop('checked') ? '1' : '0';
+            });
+        };
+    })
+
+    function initDateRangePicker(startId, endId) {
+        $(startId).datepicker({
+            todayBtn: 1,
+            format: 'dd/mm/yyyy',
+            autoclose: true,
+        }).on('changeDate', function (selected) {
+            let minDate = new Date(selected.date.valueOf());
+            $(endId).datepicker('setStartDate', minDate);
+        }).on("show", function () {
+            $(this).val($(this).val()).datepicker('update');
+        });
+
+        $(endId).datepicker({
+            format: 'dd/mm/yyyy',
+            autoclose: true
+        }).on('changeDate', function (selected) {
+            let maxDate = new Date(selected.date.valueOf());
+            $(startId).datepicker('setEndDate', maxDate);
+        }).on("show", function () {
+            $(this).val($(this).val()).datepicker('update');
+        });
+    }
+
+    function initDatePicker(startId, endId) {
+        $(startId).datepicker({
+            todayBtn: 1,
+            format: 'dd/mm/yyyy',
+            autoclose: true,
+        });
+    }
+</script>
+
+<script>
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+            {pageLanguage: 'en'},
+            'google_translate_element'
+        );
+
+        // Native (but only works in browsers that support query selector)
+        if (typeof(document.querySelector) == 'function') {
+            document.querySelector('.goog-logo-link').setAttribute('style', 'display: none');
+            document.querySelector('.goog-te-gadget').setAttribute('style', 'font-size: 0');
+        }
+    }
+</script>
+
+<!-- Insert this line after script imports -->
+<script>if (window.module) module = window.module;</script>
+
+</body>
+</html>
