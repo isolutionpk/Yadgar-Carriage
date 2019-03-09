@@ -8,8 +8,8 @@ const moment        = require('moment');
 const machine       = require('node-machine-id');
 const number_format = require('../helpers/number_format');
 const shell         = require('electron').shell
-const serverHost    = 'http://localhost:8000';
-// const serverHost    = 'http://isolution.io/demo/yadgar';
+// const serverHost    = 'http://localhost:8000';
+const serverHost    = 'http://isolution.io/demo/yadgar';
 require('jspdf-autotable');
 
 class ReportsController {
@@ -529,6 +529,7 @@ class ReportsController {
     static vehicle() {
         let start = document.getElementById('vehicle-report-start-date');
         let end   = document.getElementById('vehicle-report-end-date');
+        let type   = document.getElementById('vehicle-reports-type');
 
         let buttons = [
             {type: 'show', id: 'show_vehicle_report'},
@@ -541,17 +542,17 @@ class ReportsController {
         Array.prototype.forEach.call(buttons, (button) => {
             let btnEle = document.getElementById(button.id);
             btnEle.addEventListener('click', function () {
-                ReportsController.getVehicleRecord(start, end, button.type);
+                ReportsController.getVehicleRecord(start, end, button.type, type);
             });
         });
     }
 
-    static getVehicleRecord(start, end, type) {
+    static getVehicleRecord(start, end, type, vehicleType) {
         const tableId   = '#vehicle_reports_list';
         let startReport = start.value;
         let endReport   = end.value;
 
-        Reports.getVehicleReports().then(function (results) {
+        Reports.getVehicleReports(vehicleType.value).then(function (results) {
             let sNo = 1, dataSet = [], dates = [], total = 0;
 
             Array.prototype.forEach.call(results, (row) => {
@@ -677,9 +678,11 @@ class ReportsController {
      * @param chartsOfAccounts
      */
     static getSelect2Option(chartsOfAccounts) {
-        let form       = document.getElementById('reports-form')
-        let accountID  = form.querySelectorAll('select[name=account]')
-        let supplierID = form.querySelectorAll('select[name=supplier-accounts]')
+        let form          = document.getElementById('reports-form')
+        let accountID     = form.querySelectorAll('select[name=account]')
+        let supplierID    = form.querySelectorAll('select[name=supplier-accounts]')
+        let vehicleTypeID = form.querySelectorAll('select[name=vehicle-type]')
+        let vehicleType   = [{id: 1, html: 'Purchase', text: 'Purchase'}, {id: 2, html: 'Sales', text: 'Sales'}];
 
         Accounts.getAccounts().then(function (results) {
             let pills = [], suppliers = [];
@@ -698,6 +701,7 @@ class ReportsController {
             // Init Select 2
             HtmlHelper.initSelect2Field(accountID, pills)
             HtmlHelper.initSelect2Field(supplierID, suppliers)
+            HtmlHelper.initSelect2Field(vehicleTypeID, vehicleType)
 
             // Hide loader
             hideLoader()

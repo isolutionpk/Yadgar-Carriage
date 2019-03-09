@@ -1,8 +1,8 @@
 const request      = require("request");
 const moment       = require('moment');
 const PostOnServer = require('../models/PostOnServer');
-const serverHost   = 'http://localhost:8000';
-// const serverHost   = 'http://isolution.io/demo/yadgar';
+// const serverHost   = 'http://localhost:8000';
+const serverHost   = 'http://isolution.io/demo/yadgar';
 const time2Sync    = 2.5;
 let holdSync       = time2Sync * 60;
 

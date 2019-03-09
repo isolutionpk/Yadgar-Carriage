@@ -5,15 +5,19 @@ const query      = util.promisify(connection.query).bind(connection);
 const Dashboard = {
 
     getProductLeft: async function () {
-        return await query("SELECT `accounts`.`ac_id`, `accounts`.`name`, `purchases`.`product`, " +
-                           "SUM(`purchases`.`quantity`) AS `purchase`, " +
-                           "SUM(`sales`.`quantity`) AS `sale`, " +
-                           "SUM(`purchases`.`quantity`) - SUM(`sales`.`quantity`) AS `remaining` " +
-                           "FROM `purchases` LEFT JOIN `sales` ON `sales`.`product` = `purchases`.`product` " +
-                           "LEFT JOIN `accounts` ON `accounts`.`id`  = `purchases`.`product` " +
-                           "WHERE `purchases`.`deleted_at` IS NULL " +
-                           "AND `sales`.`deleted_at` IS NULL " +
-                           "GROUP BY `purchases`.`product`, `sales`.`product`");
+        // console.log("SELECT `accounts`.`ac_id`, `accounts`.`name`, `purchases`.`product`, " +
+        //             "SUM(`purchases`.`quantity`) AS `purchase`, " +
+        //             "(SELECT SUM(`sales`.`quantity`) AS `sal12` FROM `sales` WHERE `sales`.`product` = `purchases`.`product` AND `sales`.`deleted_at` IS NULL) AS `sale` ",
+        //     "FROM `purchases` LEFT JOIN `accounts` ON `accounts`.`id`  = `purchases`.`product` " +
+        //     "WHERE `purchases`.`deleted_at` IS NULL " +
+        //     "GROUP BY `purchases`.`product`");
+        return await query("SELECT `product`, `accounts`.`ac_id`, `accounts`.`name`, SUM(`quantity`) as `purchase`, '0' AS `sale` " +
+                           "FROM `purchases` LEFT JOIN `accounts` ON `accounts`.`id`  = `purchases`.`product` " +
+                           "WHERE `purchases`.`deleted_at` IS NULL  GROUP BY `product` " +
+                           "UNION " +
+                           "SELECT `product`, `accounts`.`ac_id`, `accounts`.`name`, '0' AS `purchase`, SUM(`quantity`) AS `sale` " +
+                           "FROM `sales` LEFT JOIN `accounts` ON `accounts`.`id`  = `sales`.`product` " +
+                           "WHERE `sales`.`deleted_at` IS NULL  GROUP BY `product`");
     },
 
     getExpireDocuments: async function () {

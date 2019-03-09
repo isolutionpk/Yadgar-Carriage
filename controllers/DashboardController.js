@@ -26,7 +26,7 @@ class DashboardController {
                     row.name,
                     number_format(row.purchase, 0),
                     number_format(row.sale, 0),
-                    number_format(row.remaining, 0)
+                    number_format(row.purchase - row.sale, 0)
                 ]);
             })
 

@@ -21,15 +21,17 @@ const Reports = {
         } else if (type == 2) {
             query_string = this.getDebitLedgerQuery(account) + 'UNION ' +
                            this.getSupplierQuery(account) + 'UNION ' +
-                           this.getGeneralQuery(account) + 'ORDER BY `created_at`';
+                           this.getGeneralQuery(account) + 'ORDER BY `table`, `created_at`';
             // Product
         } else if (type == 5) {
             query_string = this.getPurchaseProductQuery(account) + 'UNION ' +
                            this.getSaleProductQuery(account) + 'UNION ' +
                            this.getGeneralQuery(account) + 'ORDER BY `created_at`';
+
         } else if (type == 8 || type == 9 || type == 10) {
             query_string = this.getCartageQuery(account) + 'UNION ' +
                            this.getGeneralQuery(account) + 'ORDER BY `created_at`';
+
         } else {
             query_string = this.getCreditLedgerQuery(account) + 'UNION ' +
                            this.getDebitLedgerQuery(account) + 'UNION ' +
@@ -53,12 +55,20 @@ const Reports = {
                            "WHERE `profits`.`deleted_at` IS NULL ORDER BY `profits`.`created_at`");
     },
 
-    getVehicleReports: async function () {
-        return await query("SELECT `purchases`.`created_at`, `ac1`.`ac_id` AS `product`, `quantity`, `price`, " +
-                           "`total`, `ac2`.`ac_id` AS `terminal`, `reg_no` FROM `purchases` " +
-                           'LEFT JOIN `accounts` AS `ac1` ON `purchases`.`product` = `ac1`.`id` ' +
-                           'LEFT JOIN `accounts` AS `ac2` ON `purchases`.`terminal` = `ac2`.`id` ' +
-                           "WHERE `purchases`.`deleted_at` IS NULL ORDER BY `purchases`.`created_at`");
+    getVehicleReports: async function (type) {
+        if (type == 2) {
+            return await query("SELECT `sales`.`created_at`, `ac1`.`ac_id` AS `product`, `quantity`, `price`, " +
+                               "`total`, `ac2`.`ac_id` AS `terminal`, `reg_no` FROM `sales` " +
+                               'LEFT JOIN `accounts` AS `ac1` ON `sales`.`product` = `ac1`.`id` ' +
+                               'LEFT JOIN `accounts` AS `ac2` ON `sales`.`customer` = `ac2`.`id` ' +
+                               "WHERE `sales`.`deleted_at` IS NULL ORDER BY `sales`.`created_at`");
+        } else {
+            return await query("SELECT `purchases`.`created_at`, `ac1`.`ac_id` AS `product`, `quantity`, `price`, " +
+                               "`total`, `ac2`.`ac_id` AS `terminal`, `reg_no` FROM `purchases` " +
+                               'LEFT JOIN `accounts` AS `ac1` ON `purchases`.`product` = `ac1`.`id` ' +
+                               'LEFT JOIN `accounts` AS `ac2` ON `purchases`.`terminal` = `ac2`.`id` ' +
+                               "WHERE `purchases`.`deleted_at` IS NULL ORDER BY `purchases`.`created_at`");
+        }
     },
 
     /**
