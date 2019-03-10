@@ -18,17 +18,40 @@ class DashboardController {
     stockLeft() {
         const tableId = '#dashboard_stock_left';
         Dashboard.getProductLeft().then(function (results) {
-            let dataSet = [];
+            let dataSet = [], reSort = [];
 
+            // Merge Same product values
             Array.prototype.forEach.call(results, (row) => {
-                dataSet.push([
-                    row.ac_id,
-                    row.name,
-                    number_format(row.purchase, 0),
-                    number_format(row.sale, 0),
-                    number_format(row.purchase - row.sale, 0)
-                ]);
+                if (isset(reSort[row.product])) {
+                    reSort[row.product] = {
+                        'ac_id': row.ac_id,
+                        'name': row.name,
+                        'purchase': parseFloat(reSort[row.product].purchase) + parseFloat(row.purchase),
+                        'sale': parseFloat(reSort[row.product].sale) + parseFloat(row.sale)
+                    }
+                } else {
+                    reSort[row.product] = {
+                        'ac_id': row.ac_id,
+                        'name': row.name,
+                        'purchase': row.purchase,
+                        'sale': row.sale
+                    }
+                }
             })
+
+            // Loop to make an array for displaying
+            for (const k in reSort) {
+                if (reSort.hasOwnProperty(k)) {
+                    const row = reSort[k];
+                    dataSet.push([
+                        row.ac_id,
+                        row.name,
+                        number_format(row.purchase, 0),
+                        number_format(row.sale, 0),
+                        number_format(row.purchase - row.sale, 0)
+                    ]);
+                }
+            }
 
             // Init Data Table
             HtmlHelper.initDataTable(tableId, dataSet, ['A/C id', 'Product', 'Purchase', 'Sale', 'Remaining']);

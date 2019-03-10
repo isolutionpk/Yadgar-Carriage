@@ -16,7 +16,7 @@ const Reports = {
         if (type == 1) {
             query_string = this.getCreditLedgerQuery(account) + 'UNION ' +
                            this.getCustomerQuery(account) + 'UNION ' +
-                           this.getGeneralQuery(account) + 'ORDER BY `created_at`';
+                           this.getGeneralQuery(account) + 'ORDER BY `table`, `created_at`';
             // Supplier
         } else if (type == 2) {
             query_string = this.getDebitLedgerQuery(account) + 'UNION ' +
@@ -89,7 +89,7 @@ const Reports = {
      * @returns string
      */
     getDebitLedgerQuery: function (account) {
-        return "SELECT `ledger`.`created_at`, CONCAT('FROM ', `accounts`.`ac_id`, ' ', `description`) AS `description`, " +
+        return "SELECT `ledger`.`created_at`, CONCAT('FROM ', `accounts`.`name`, ' ', `description`) AS `description`, " +
                "`total` AS `debit`, '0' AS `credit`, 'ledger' AS `table` FROM `ledger` " +
                "LEFT JOIN `accounts` ON `ledger`.`credit`  = `accounts`.`id` " +
                "WHERE `ledger`.`deleted_at` IS NULL AND `debit` = '" + account + "' ";

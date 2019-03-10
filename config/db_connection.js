@@ -55,10 +55,7 @@ function createDb(path) {
         dbQuery.forEach(function (query, i) {
             connection.query(query, function (err, result) {
                 if (err) {
-                    hideLoader();
-
                     showToast('Something are wrong in the backup file', 'danger');
-
                     reject(1);
                     throw err;
                 } else if (++i == dbQuery.length) {

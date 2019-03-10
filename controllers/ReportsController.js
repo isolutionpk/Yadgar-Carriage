@@ -529,7 +529,7 @@ class ReportsController {
     static vehicle() {
         let start = document.getElementById('vehicle-report-start-date');
         let end   = document.getElementById('vehicle-report-end-date');
-        let type   = document.getElementById('vehicle-reports-type');
+        let type  = document.getElementById('vehicle-reports-type');
 
         let buttons = [
             {type: 'show', id: 'show_vehicle_report'},
@@ -603,7 +603,8 @@ class ReportsController {
             if (type == 'pdf' || type == 'wpdf') {
                 ReportsController.generateVehiclePDF(headings, dataSet, startReport, endReport, type);
             } else if (type == 'xsl' || type == 'wxsl') {
-                ReportsController.generateXSL(3, headings, dataSet, {ac_id: 'Purchase', name: 'Vehicles'}, type);
+                const selAccount = {ac_id: vehicleType.options[vehicleType.selectedIndex].innerHTML, name: 'Vehicles'};
+                ReportsController.generateXSL(3, headings, dataSet, selAccount, type);
             } else {
                 const info                             = document.getElementById('vehicle-report-information');
                 info.querySelector('.print').innerHTML = moment().format('DD-MM-YYYY')

@@ -111,7 +111,7 @@ class SalesController {
             HtmlHelper.getInputFieldHtml('price', 'sales-add-price', 'number'),
             HtmlHelper.getInputFieldHtml('total', 'sales-add-total', 'number', false, false, true),
             HtmlHelper.getSelect2InputFieldHtml('customer', 'sales-add-customer'),
-            HtmlHelper.getInputFieldHtml('description', 'sales-add-description'),
+            HtmlHelper.getInputFieldHtml('description', 'sales-add-description', false, false, 'Sale'),
             HtmlHelper.getInputFieldHtml('reg_no', 'sales-add-reg_no'),
             HtmlHelper.getStatusOfRow()
         ];
@@ -193,12 +193,12 @@ class SalesController {
             elem.addEventListener('change', function (event) {
                 let price   = event.target.parentNode.nextSibling.childNodes[0];
                 let total   = event.target.parentNode.nextSibling.nextSibling.childNodes[0];
-                total.value = event.target.value * price.value
+                total.value = Math.round(event.target.value * price.value)
             });
             elem.addEventListener('input', function (event) {
                 let price   = event.target.parentNode.nextSibling.childNodes[0];
                 let total   = event.target.parentNode.nextSibling.nextSibling.childNodes[0];
-                total.value = event.target.value * price.value
+                total.value = Math.round(event.target.value * price.value)
             });
         });
 
@@ -207,12 +207,12 @@ class SalesController {
             elem.addEventListener('change', function (event) {
                 let qty     = event.target.parentNode.previousSibling.childNodes[0];
                 let total   = event.target.parentNode.nextSibling.childNodes[0];
-                total.value = event.target.value * qty.value
+                total.value = Math.round(event.target.value * qty.value)
             });
             elem.addEventListener('input', function (event) {
                 let qty     = event.target.parentNode.previousSibling.childNodes[0];
                 let total   = event.target.parentNode.nextSibling.childNodes[0];
-                total.value = event.target.value * qty.value
+                total.value = Math.round(event.target.value * qty.value)
             });
         });
     }

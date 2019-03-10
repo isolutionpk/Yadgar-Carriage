@@ -105,7 +105,7 @@ HtmlHelperClass = function () {
         // Getting Columns settings ready
         Array.prototype.forEach.call(columns, (title, $i) => {
             if (Array.isArray(title)) {
-                let isString = (title[0] == 'text') ? {type: "string"} : {};
+                let isString = (title[0] == 'text' || title[0] == 'select') ? {type: "string"} : {};
                 columns[$i]  = Object.assign({title: title[1], orderDataType: 'dom-' + title[0]}, isString);
             } else {
                 columns[$i] = {title: title}
@@ -153,7 +153,7 @@ HtmlHelperClass = function () {
     this.getObjectOfPill = function (row) {
         return {
             "id": row.id,
-            "text": row.ac_id,
+            "text": row.ac_id + ' | ' + row.name,
             "html": '<div><span>' + row.ac_id + '</span><span>' + getChartOfAccountsLabels(row.type) + '</span></div><span>' + row.name + '</span>'
         };
     }

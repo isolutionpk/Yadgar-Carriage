@@ -663,6 +663,9 @@ table.dataTable {
   }
 
   // Width auto range of tables
+  .content {
+    padding: 0;
+  }
   #purchases_list, #sales_list, #ledger_list, #general_list,
   #profit_list, #cartage_list, #cartage_documents_list {
     tr > th, tr > td {
@@ -672,15 +675,29 @@ table.dataTable {
         width: auto !important;
       }
     }
+
+    .select2-container .select2-selection--single {
+      height: auto;
+      .select2-selection__rendered {
+        white-space: normal;
+      }
+    }
   }
 
   #purchases_list, #sales_list {
     tr > th, tr > td {
-      &:nth-of-type(3) {
-        width: 100px !important;
+      &:nth-of-type(3), &:nth-of-type(4) {
+        width: 50px !important;
       }
-      &:nth-of-type(4), &:nth-of-type(5) {
-        width: 140px !important;
+      &:nth-of-type(5), &:nth-of-type(8) {
+        width: 80px !important;
+      }
+    }
+  }
+  #sales_list {
+    tr > th, tr > td {
+      &:nth-of-type(7){
+        display: none;
       }
     }
   }
