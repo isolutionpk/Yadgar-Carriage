@@ -50,7 +50,7 @@ function showToast(message, className) {
 }
 
 function showLoader() {
-    let x                            = document.getElementById('loader');
+    let x = document.getElementById('loader');
     //let offset                       = document.querySelector('.main-sidebar').offsetWidth;
     //x.childNodes[0].style.marginLeft = offset / 2 + 'px';
     x.classList.add("show");
@@ -208,6 +208,20 @@ function getChartOfAccountsLabels(index) {
     }
 
     return charts;
+}
+
+function userDefaultPremissions() {
+    return {
+        daybook: {read: true, write: true},
+        vehicleBilling: {read: true, write: true},
+        vehicleDocuments: {read: true, write: true},
+        accounts: {read: true, write: true},
+        reports: {read: true, write: true}
+    }
+}
+
+function isAdmin(role) {
+    return (role == '21232f297a57a5a743894a0e4a801fc3')
 }
 
 

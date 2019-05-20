@@ -280,7 +280,8 @@ table.dataTable {
     margin-top: 10px; }
 
 #report-information, #supplier-report-information,
-#profit-report-information, #vehicle-report-information {
+#profit-report-information, #vehicle-report-information,
+#balance-report-information {
   margin: 10px 0; }
 
 #reports_list tbody td, #reports_list tfoot td, #supplier_reports_list tbody td, #supplier_reports_list tfoot td, #profit_reports_list tbody td, #profit_reports_list tfoot td, #vehicle_reports_list tbody td, #vehicle_reports_list tfoot td {
@@ -456,6 +457,14 @@ table.dataTable {
       .modal-dialog .modal-header, .modal-dialog .modal-footer {
         display: none; } }
 
+.diffLag {
+  display: none; }
+
+.translated-rtl .diffLag {
+  display: block; }
+  .translated-rtl .diffLag + input {
+    display: none; }
+
 @media print {
   #reports-form, .modal-header {
     display: none !important; }
@@ -539,6 +548,9 @@ table.dataTable {
     width: 140px !important; }
 
   #cartage_list tr > th:nth-of-type(4), #cartage_list tr > th:nth-of-type(5), #cartage_list tr > td:nth-of-type(4), #cartage_list tr > td:nth-of-type(5) {
-    width: 140px !important; } }
+    width: 140px !important; }
+
+  .skiptranslate {
+    display: none; } }
 
 /*# sourceMappingURL=style.css.map */

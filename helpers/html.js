@@ -12,16 +12,21 @@ HtmlHelperClass = function () {
     /**
      * Get span cell
      * @param id
+     * @param disabled
      * @returns {*}
      */
-    this.getStatusOfRow = function (id) {
-        id = id || '';
+    this.getStatusOfRow = function (id, disabled) {
+        id       = id || '';
+        disabled = disabled || false;
 
         let status = '<i class="fa fa-plus-square"></i>';
         if (id != '') {
             status = '<i class="fa fa-check-square-o"></i>' +
-                     '<i class="fa fa-exclamation-circle hide"></i>' +
-                     '<a href="#" class="delete-row" data-delete="' + id + '"><i class="fa fa-trash"></i></a>';
+                     '<i class="fa fa-exclamation-circle hide"></i>';
+        }
+
+        if (!disabled) {
+            status += '<a href="#" class="delete-row" data-delete="' + id + '"><i class="fa fa-trash"></i></a>';
         }
 
         return '<i class="fa fa-pencil-square-o hide"></i>' + status;
@@ -51,7 +56,8 @@ HtmlHelperClass = function () {
 
         }
 
-        return '<input type="' + type + '" value="' + value + '" ' + min + isDisable + placeholder +
+        const diffLng = (name == 'description') ? '<label class="diffLag">' + value + '</label>' : '';
+        return diffLng + '<input type="' + type + '" value="' + value + '" ' + min + isDisable + placeholder +
                'class="' + className + '" name="' + name + '" id="' + id + '" required="required">';
     }
 
@@ -60,12 +66,14 @@ HtmlHelperClass = function () {
      * @param name
      * @param id
      * @param value
+     * @param isDisable
      * @returns {*}
      */
-    this.getSelect2InputFieldHtml = function (name, id, value) {
-        value = value || '';
+    this.getSelect2InputFieldHtml = function (name, id, value, isDisable) {
+        value     = value || '';
+        isDisable = (isDisable) ? ' disabled ' : '';
         return '<select class="form-control select2" name="' + name + '" id="' + id + '" data-value="' + value + '" ' +
-               'required="required"></select>';
+               'required="required" ' + isDisable + '></select>';
     }
 
     /**
@@ -124,6 +132,7 @@ HtmlHelperClass = function () {
             language: {
                 "zeroRecords": " "
             },
+            lengthMenu: [50, 75, 100, 125, 150],
             data: dataSet,
             columns: columns,
             paging: settings,

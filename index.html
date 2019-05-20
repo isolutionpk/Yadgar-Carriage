@@ -327,19 +327,19 @@
         }).on('changeDate', function (selected) {
             let minDate = new Date(selected.date.valueOf());
             $(endId).datepicker('setStartDate', minDate);
-        }).on("show", function () {
-            $(this).val($(this).val()).datepicker('update');
         });
 
         $(endId).datepicker({
+            todayBtn: 1,
             format: 'dd/mm/yyyy',
             autoclose: true
         }).on('changeDate', function (selected) {
             let maxDate = new Date(selected.date.valueOf());
             $(startId).datepicker('setEndDate', maxDate);
-        }).on("show", function () {
-            $(this).val($(this).val()).datepicker('update');
         });
+        // .on("show", function () {
+        //     $(this).val($(this).val()).datepicker('update');
+        // })
     }
 
     function initDatePicker(startId, endId) {

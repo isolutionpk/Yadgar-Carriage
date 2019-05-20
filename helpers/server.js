@@ -10,7 +10,7 @@ class ServerJs {
     constructor(type) {
         const server = this;
         holdSync     = time2Sync * 60;
-        console.log('Posted', moment().format('HH:mm:ss'));
+        console.log('Posted', type, moment().format('HH:mm:ss'));
 
         if (window.navigator.onLine == true) {
             this.isOnline().then(function () {
@@ -138,6 +138,8 @@ class ServerJs {
 
                     if (rows.data.length > 0) {
 
+                        console.log('Received ' + table + ' ' + rows.data.length, moment().format('HH:mm:ss'));
+
                         Array.prototype.forEach.call(rows.data, (row, i) => {
                             PostOnServer.isRowExist(table, row.id).then(function (result) {
                                 if (result.length > 0) {
@@ -185,6 +187,8 @@ function updateClock() {
     table.children[3].children[1].innerHTML = moment().add(holdSync, 'seconds').fromNow();
 }
 
+const sleep = (waitTimeInMs) => new Promise(resolve => setTimeout(resolve, waitTimeInMs));
+
 updateClock();
 setInterval(updateClock, 1000);
 
@@ -192,8 +196,8 @@ setInterval(updateClock, 1000);
 window.setInterval(function () {
     new ServerJs(1);
 
-    // Pull from Server after 1 min delay
-    setTimeout(function () {
+    // Pull on server
+    sleep(10000).then(() => {
         new ServerJs(2);
-    }, 60000);
+    });
 }, (time2Sync * 60000));

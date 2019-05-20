@@ -157,6 +157,37 @@
                     <button type="button" id="whats_app_vehicle_report_xsl" class="btn btn-danger">WhatsApp XSL</button>
                 </div>
             </div>
+
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Get Balance 4 Charts of Accounts</h3>
+                </div>
+                <!-- /.box-header -->
+
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="balance-reports-type">Type</label>
+                        <select id="balance-reports-type" name="carts-of-accounts-type"></select>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+
+                <div class="box-footer">
+                    <button type="button" id="show_balance_report" class="btn btn-success">Show</button>
+                    <button type="button" id="download_balance_report_pdf" class="btn btn-success">
+                        Download PDF
+                    </button>
+                    <button type="button" id="download_balance_report_xsl" class="btn btn-success">
+                        Download XSL
+                    </button>
+                    <button type="button" id="whats_app_balance_report_pdf" class="btn btn-success">
+                        WhatsApp PDF
+                    </button>
+                    <button type="button" id="whats_app_balance_report_xsl" class="btn btn-success">
+                        WhatsApp XSL
+                    </button>
+                </div>
+            </div>
         </section>
         <!-- /.content -->
 
@@ -327,6 +358,45 @@
                             </div>
                         </div>
                         <table id="vehicle_reports_list" class="table table-bordered table-striped datatable"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modal-balance">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="pull-right">
+                            <a href="javascript:;" onclick="window.print()" style="margin-right: 10px;">
+                                <i class="fa fa-print"></i>
+                            </a>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <h4 class="modal-title">Balance Sheet</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="center text-center report-logo">
+                            <img src="assets/img/logo.png" width="200"/>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="row" id="balance-report-information">
+                            <div class="col-xs-5 col-sm-5">
+                                <div class="row">
+                                    <div class="col-xs-4 col-sm-6"><strong>Account</strong></div>
+                                    <div class="col-xs-8 col-sm-6 a">Customers</div>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-xs-push-3 col-sm-5 col-sm-push-2">
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-6"><strong>Print on</strong></div>
+                                    <div class="col-xs-6 col-sm-6 print text-right">12-01-2019</div>
+                                </div>
+                            </div>
+                        </div>
+                        <table id="balance_reports_list" class="table table-bordered table-striped datatable"></table>
                     </div>
                 </div>
             </div>

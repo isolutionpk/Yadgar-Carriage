@@ -1,19 +1,21 @@
 const Ledger    = require('../models/Ledger');
 const Accounts  = require('../models/Accounts');
 const serialize = require('node-serialize');
+const settings  = require('electron-settings');
 const moment    = require('moment');
 
 class LedgersController {
 
     constructor(elementId) {
         showLoader();
+        const user = settings.get('loggedUser');
         switch (elementId) {
             case 'ledger-accounts1':
             case 'ledger-accounts2':
             case 'ledger-accounts3':
             case 'ledger-accounts4':
             case 'ledger-accounts5':
-                return this.index()
+                return this.index(user)
             default:
                 return console.log(123)
         }
@@ -27,7 +29,7 @@ class LedgersController {
         return document.getElementById('ledger-accounts-section')
     }
 
-    index() {
+    index(user) {
         let start = document.getElementById('ledger-start-date')
         let end   = document.getElementById('ledger-end-date')
 
@@ -38,11 +40,11 @@ class LedgersController {
             end.value = moment().format('DD/MM/YYYY');
         }
 
-        this.getRecord(start, end);
-        this.filter(start, end);
+        this.getRecord(start, end, user);
+        this.filter(start, end, user);
     }
 
-    filter(start, end) {
+    filter(start, end, user) {
         let form = document.getElementById('ledger-filter-form')
 
         form.onsubmit = (evt) => {
@@ -59,24 +61,26 @@ class LedgersController {
                 return false;
             }
 
-            this.getRecord(start, end);
+            this.getRecord(start, end, user);
         }
     }
 
-    getRecord(start, end) {
+    getRecord(start, end, user) {
         const tableId = '#ledger_list';
         Ledger.getLedgers(start.value, end.value).then(function (results) {
             let sNo = 1, dataSet = [];
+
+            const disabled = LedgersController.isDisabled(user);
 
             Array.prototype.forEach.call(results, (row) => {
                 dataSet.push([
                     HtmlHelper.getSpanCell(sNo) +
                     HtmlHelper.getInputFieldHtml('id', 'ledger-edit-id-' + row.id, 'hidden', false, row.id),
-                    HtmlHelper.getSelect2InputFieldHtml('credit', 'ledger-edit-credit-' + row.id, row.credit),
-                    HtmlHelper.getInputFieldHtml('total', 'ledger-edit-total-' + row.id, 'number', false, row.total),
-                    HtmlHelper.getSelect2InputFieldHtml('debit', 'ledger-edit-debit-' + row.id, row.debit),
-                    HtmlHelper.getInputFieldHtml('description', 'ledger-edit-description-' + row.id, false, false, row.description),
-                    HtmlHelper.getStatusOfRow(row.id)
+                    HtmlHelper.getSelect2InputFieldHtml('credit', 'ledger-edit-credit-' + row.id, row.credit, disabled),
+                    HtmlHelper.getInputFieldHtml('total', 'ledger-edit-total-' + row.id, 'number', false, row.total, disabled),
+                    HtmlHelper.getSelect2InputFieldHtml('debit', 'ledger-edit-debit-' + row.id, row.debit, disabled),
+                    HtmlHelper.getInputFieldHtml('description', 'ledger-edit-description-' + row.id, false, false, row.description, disabled),
+                    HtmlHelper.getStatusOfRow(row.id, disabled)
                 ]);
                 sNo++;
             })
@@ -90,7 +94,9 @@ class LedgersController {
                 ['text', 'Description'],
                 'Status'
             ])
-            HtmlHelper.setDataTableFooter(tableId, LedgersController.defaultRow(sNo))
+            if (!disabled) {
+                HtmlHelper.setDataTableFooter(tableId, LedgersController.defaultRow(sNo))
+            }
             LedgersController.getSelect2Option()
             LedgersController.create();
         })
@@ -166,6 +172,16 @@ class LedgersController {
             // Hide loader
             hideLoader()
         })
+    }
+
+    static isDisabled(user) {
+        let disabled = true;
+        if (isAdmin(user.role)) {
+            disabled = false
+        } else if (isset(user.permissions.daybook) && user.permissions.daybook.write) {
+            disabled = false
+        }
+        return disabled;
     }
 }
 

@@ -38,7 +38,7 @@ class AccountsController {
             const user = settings.get('loggedUser');
 
             Array.prototype.forEach.call(results, (row) => {
-                if (AccountsController.isRoleAdmin(user)) {
+                if (isAdmin(user.role)) {
                     dataSet.push([
                         row.ac_id,
                         row.name,
@@ -57,7 +57,7 @@ class AccountsController {
             })
 
             // Init Data Table
-            if (AccountsController.isRoleAdmin(user)) {
+            if (isAdmin(user.role)) {
                 HtmlHelper.initDataTable(tableId, dataSet, ['A/C id', 'Name', 'Type', 'Created', 'Actions'])
             } else {
                 HtmlHelper.initDataTable(tableId, dataSet, ['A/C id', 'Name', 'Type', 'Created'])
@@ -218,26 +218,29 @@ class AccountsController {
     }
 
     static destroy() {
-        let table   = document.getElementById('account_list')
-        let buttons = table.querySelectorAll('.delete-account')
-
-        Array.prototype.forEach.call(buttons, (button) => {
-            button.addEventListener('click', (event) => {
-                if (confirm('Are you sure want to delete this account')) {
-                    const id = event.target.dataset.delete;
-                    Accounts.deleteAccount(id).then(function (result) {
-                        const section = document.getElementById('account-index')
-                        if (section) section.click()
-
-                        showToast('Account deleted successfully')
-                    })
-                }
-            })
-        })
+        let table = document.getElementById('account_list')
+        table.removeEventListener('click', AccountsController.destroyListener);
+        table.addEventListener('click', AccountsController.destroyListener);
     }
 
-    static isRoleAdmin(user) {
-        return (user.role == '21232f297a57a5a743894a0e4a801fc3')
+    static destroyListener(event) {
+        if (event.target.dataset.delete) {
+            if (confirm('Are you sure want to delete this account')) {
+                const id = event.target.dataset.delete;
+                Accounts.isAccountUsed(id).then(function (result) {
+                    if (result.length == 0) {
+                        Accounts.deleteAccount(id).then(function (result) {
+                            const section = document.getElementById('account-index')
+                            if (section) section.click()
+
+                            showToast('Account deleted successfully')
+                        })
+                    } else {
+                        showToast('Sorry! This account somewhere used.', 'danger')
+                    }
+                })
+            }
+        }
     }
 }
 

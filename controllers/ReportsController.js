@@ -20,6 +20,7 @@ class ReportsController {
         ReportsController.suppliers(ReportsController.chartsOfAccounts);
         ReportsController.profitAndLoss();
         ReportsController.vehicle();
+        ReportsController.totalBalance(ReportsController.chartsOfAccounts);
     }
 
     init() {
@@ -103,9 +104,9 @@ class ReportsController {
                         sNo,
                         moment(row.created_at).format('DD-MM-YYYY'),
                         row.description,
-                        number_format(row.debit, 2),
-                        number_format(row.credit, 2),
-                        number_format(total, 2) + ' ' + aDis
+                        Math.abs(row.debit),
+                        Math.abs(row.credit),
+                        number_format(Math.abs(total), 2) + ' ' + aDis
                     ]);
                     sNo++;
                 }
@@ -142,7 +143,8 @@ class ReportsController {
                 info.querySelector('.to').innerHTML    = endReport
 
                 hideLoader()
-                window.$('#modal-default').modal('show')
+                window.$('#modal-default').modal('show');
+                window.$('#reports-section').animate({scrollTop: 0}, '300');
             }
         })
     }
@@ -258,7 +260,7 @@ class ReportsController {
                 dataSet.push([
                     row.name,
                     row.description,
-                    number_format(row.debit, 2),
+                    Math.abs(row.debit),
                 ]);
                 sNo++;
             })
@@ -280,7 +282,7 @@ class ReportsController {
             }
 
             if (type == 'pdf' || type == 'wpdf') {
-                ReportsController.generateSupplierPDF(headings, dataSet, total, dayOfReport.format('DD-MM-YYYY'), selAccount, type);
+                ReportsController.generateSupplierPDF(headings, dataSet, total, selAccount, type);
             } else if (type == 'xsl' || type == 'wxsl') {
                 // Push total
                 dataSet.push(['Total', '', number_format(total, 2)]);
@@ -293,12 +295,13 @@ class ReportsController {
                 info.querySelector('.from').innerHTML  = dayOfReport.format('DD-MM-YYYY')
 
                 hideLoader();
-                window.$('#modal-supplier').modal('show')
+                window.$('#modal-supplier').modal('show');
+                window.$('#reports-section').animate({scrollTop: 0}, '300');
             }
         })
     }
 
-    static generateSupplierPDF(headings, dataSet, total, dayOfReport, selAccount, type) {
+    static generateSupplierPDF(headings, dataSet, total, selAccount, type) {
         const doc = new jsPDF();
         headings  = headings.map(x => (x.title));
 
@@ -426,9 +429,9 @@ class ReportsController {
                         sNo,
                         moment(row.created_at).format('DD-MM-YYYY'),
                         row.name + '(' + row.ac_id + ') ' + row.description,
-                        number_format(row.debit, 2),
-                        number_format(row.credit, 2),
-                        number_format(total, 2) + ' ' + aDis
+                        Math.abs(row.debit),
+                        Math.abs(row.credit),
+                        number_format(Math.abs(total), 2) + ' ' + aDis
                     ]);
                     sNo++;
                 }
@@ -461,7 +464,8 @@ class ReportsController {
                 info.querySelector('.to').innerHTML    = endReport
 
                 hideLoader();
-                window.$('#modal-profit-loss').modal('show')
+                window.$('#modal-profit-loss').modal('show');
+                window.$('#reports-section').animate({scrollTop: 0}, '300');
             }
         })
     }
@@ -553,7 +557,7 @@ class ReportsController {
         let endReport   = end.value;
 
         Reports.getVehicleReports(vehicleType.value).then(function (results) {
-            let sNo = 1, dataSet = [], dates = [], total = 0;
+            let sNo = 1, dataSet = [], dates = [];
 
             Array.prototype.forEach.call(results, (row) => {
                 dates.push(row.created_at);
@@ -580,8 +584,8 @@ class ReportsController {
                         moment(row.created_at).format('DD-MM-YYYY'),
                         row.product + ' - ' + row.reg_no + ' (' + row.terminal + ')',
                         row.quantity + ' KL',
-                        number_format(row.price, 2),
-                        number_format(row.total, 2),
+                        Math.abs(row.price),
+                        Math.abs(row.total),
                     ]);
                     sNo++;
                 }
@@ -612,7 +616,8 @@ class ReportsController {
                 info.querySelector('.to').innerHTML    = endReport
 
                 hideLoader();
-                window.$('#modal-vehicle').modal('show')
+                window.$('#modal-vehicle').modal('show');
+                window.$('#reports-section').animate({scrollTop: 0}, '300');
             }
         })
     }
@@ -675,15 +680,155 @@ class ReportsController {
 
 
     /**
+     * Get Balance 4 Charts of Accounts
+     */
+    static totalBalance(chartsOfAccounts) {
+        let type = document.getElementById('balance-reports-type');
+
+        let buttons = [
+            {type: 'show', id: 'show_balance_report'},
+            {type: 'pdf', id: 'download_balance_report_pdf'},
+            {type: 'xsl', id: 'download_balance_report_xsl'},
+            {type: 'wpdf', id: 'whats_app_balance_report_pdf'},
+            {type: 'wxsl', id: 'whats_app_balance_report_xsl'}
+        ];
+
+        Array.prototype.forEach.call(buttons, (button) => {
+            let btnEle = document.getElementById(button.id);
+            btnEle.addEventListener('click', function () {
+                ReportsController.getTotalBalanceRecord(button.type, type, chartsOfAccounts);
+            });
+        });
+    }
+
+    static getTotalBalanceRecord(type, chartsOfType, chartsOfAccounts) {
+        const tableId = '#balance_reports_list', dataSet = [];
+        let sNo       = 1, overallDebit = 0, overallCredit = 0;
+
+        showLoader()
+
+        // Get only account types
+        Accounts.getAccounts(chartsOfType.value).then(function (accountResults) {
+
+            // Loop on account results
+            Array.prototype.forEach.call(accountResults, (account) => {
+
+                // Get reports from account
+                Reports.getReports(account.id, chartsOfAccounts).then(function (results) {
+
+                    // Generate total
+                    let total = 0;
+                    Array.prototype.forEach.call(results, (row) => {
+                        total = parseFloat(total) - parseFloat(row.credit);
+                        total = parseFloat(total) + parseFloat(row.debit);
+                    });
+
+                    overallDebit += (total >= 0) ? Math.abs(total) : 0;
+                    overallCredit += (total < 0) ? Math.abs(total) : 0;
+                    dataSet.push([
+                        sNo,
+                        account.ac_id,
+                        account.name,
+                        (total >= 0) ? Math.abs(total) : 0,
+                        (total < 0) ? Math.abs(total) : 0,
+                    ]);
+
+                    if (accountResults.length == sNo) {
+                        // Init Data Table
+                        const headings = ['No', 'ID', 'Account Name', 'Debit', 'Credit'];
+                        HtmlHelper.initDataTable(tableId, dataSet, headings);
+                        HtmlHelper.setDataTableFooter(tableId,
+                            '<td colspan="3">Total</td><td>' + number_format(overallDebit, 2) + '</td><td>' + number_format(overallCredit, 2) + '</td>');
+
+                        const nameForPrint = getChartOfAccountsLabels(chartsOfType.value);
+                        const selAccount   = {'ac_id': nameForPrint, 'name': nameForPrint};
+                        if (type == 'pdf' || type == 'wpdf') {
+                            // Push total
+                            dataSet.push(['Total', '', '', number_format(overallDebit, 2), number_format(overallCredit, 2)]);
+                            ReportsController.generateTotalBalancePDF(headings, dataSet, selAccount, type);
+                        } else if (type == 'xsl' || type == 'wxsl') {
+                            // Push total
+                            dataSet.push(['Total', '', '', number_format(overallDebit, 2), number_format(overallCredit, 2)]);
+                            ReportsController.generateXSL(4, headings, dataSet, selAccount, type);
+                        } else {
+                            const info                             = document.getElementById('balance-report-information');
+                            info.querySelector('.a').innerHTML     = nameForPrint;
+                            info.querySelector('.print').innerHTML = moment().format('DD-MM-YYYY')
+
+                            hideLoader();
+                            window.$('#modal-balance').modal('show');
+                            window.$('#reports-section').animate({scrollTop: 0}, '300');
+                        }
+                    }
+
+                    sNo++;
+                })
+            });
+        });
+    }
+
+    static generateTotalBalancePDF(headings, dataSet, selAccount, type) {
+        const doc = new jsPDF();
+        headings  = headings.map(x => (x.title));
+
+        let img = new Image();
+        img.src = './assets/img/logo.png';
+        doc.addImage(img, 'PNG', 15, 10);
+
+        const inWidth = doc.internal.pageSize.width;
+
+        doc.setFontSize(10);
+        doc.setFontType('bold');
+        doc.text(15, 40, 'Account:');
+        doc.text((inWidth - 65), 40, 'Print on:');
+        doc.setFontType('normal');
+        doc.text(40, 40, selAccount.ac_id);
+        doc.text((inWidth - 35), 40, moment().format('DD-MM-YYYY'));
+
+        doc.autoTable({
+            margin: {top: 35},
+            head: [headings],
+            body: dataSet,
+            columnStyles: {
+                0: {halign: 'center', minCellWidth: 10},
+                1: {minCellWidth: 20},
+                2: {minCellWidth: 30},
+                3: {halign: 'center', minCellWidth: 25},
+                4: {halign: 'center', minCellWidth: 25}
+            },
+            headStyles: {fillColor: '#00a65a', fontSize: 10},
+            bodyStyles: {fontSize: 8}
+        });
+
+        if (type == 'wpdf') {
+            let blob = doc.output('datauristring');
+            ReportsController.send2server('pdf', blob).then(function (url) {
+                hideLoader()
+                url = "https://wa.me/?text=" + url;
+                shell.openExternal(url)
+            });
+        } else {
+            hideLoader()
+            doc.save(moment().format('YYYY-MM-DD') + ' ' + selAccount.name + '.pdf');
+        }
+    }
+
+
+    /**
      * General function for all type of reports
      * @param chartsOfAccounts
      */
     static getSelect2Option(chartsOfAccounts) {
-        let form          = document.getElementById('reports-form')
-        let accountID     = form.querySelectorAll('select[name=account]')
-        let supplierID    = form.querySelectorAll('select[name=supplier-accounts]')
-        let vehicleTypeID = form.querySelectorAll('select[name=vehicle-type]')
-        let vehicleType   = [{id: 1, html: 'Purchase', text: 'Purchase'}, {id: 2, html: 'Sales', text: 'Sales'}];
+        let form           = document.getElementById('reports-form')
+        let accountID      = form.querySelectorAll('select[name=account]')
+        let supplierID     = form.querySelectorAll('select[name=supplier-accounts]')
+        let vehicleTypeID  = form.querySelectorAll('select[name=vehicle-type]')
+        let totalBalanceID = form.querySelectorAll('select[name=carts-of-accounts-type]')
+        let vehicleType    = [{id: 1, html: 'Purchase', text: 'Purchase'}, {id: 2, html: 'Sales', text: 'Sales'}];
+        let totalBalance   = [];
+        Array.prototype.forEach.call(getChartOfAccountsLabels(), (type, i) => {
+            totalBalance.push({id: i, html: type, text: type})
+        })
 
         Accounts.getAccounts().then(function (results) {
             let pills = [], suppliers = [];
@@ -703,6 +848,7 @@ class ReportsController {
             HtmlHelper.initSelect2Field(accountID, pills)
             HtmlHelper.initSelect2Field(supplierID, suppliers)
             HtmlHelper.initSelect2Field(vehicleTypeID, vehicleType)
+            HtmlHelper.initSelect2Field(totalBalanceID, totalBalance)
 
             // Hide loader
             hideLoader()
@@ -732,6 +878,17 @@ class ReportsController {
                 {wpx: 200}, // "pixels"
                 {wpx: 300}, // "pixels"
                 {wpx: 180}, // "pixels"
+            ];
+        } else if (type == 4) {
+            filename = filename + selAccount.name;
+            row1     = [];
+            row2     = ['', '', selAccount.name + 's', '', ''];
+            wsCols   = [
+                {wpx: 50}, // "pixels"
+                {wpx: 50}, // "pixels"
+                {wpx: 300}, // "pixels"
+                {wpx: 200}, // "pixels"
+                {wpx: 200}, // "pixels"
             ];
         }
 

@@ -1,12 +1,14 @@
 const Purchases = require('../models/Purchases');
 const Accounts  = require('../models/Accounts');
 const serialize = require('node-serialize');
+const settings  = require('electron-settings');
 const moment    = require('moment');
 
 class PurchasesController {
 
     constructor(elementId) {
         showLoader();
+        const user = settings.get('loggedUser');
         switch (elementId) {
             case 'purchases-day-book':
             case 'purchases-accounts1':
@@ -14,7 +16,7 @@ class PurchasesController {
             case 'purchases-accounts3':
             case 'purchases-accounts4':
             case 'purchases-accounts5':
-                return this.index()
+                return this.index(user)
             default:
                 return console.log(123)
         }
@@ -28,7 +30,7 @@ class PurchasesController {
         return document.getElementById('purchases-accounts-section')
     }
 
-    index() {
+    index(user) {
         let start = document.getElementById('purchases-start-date')
         let end   = document.getElementById('purchases-end-date')
 
@@ -39,11 +41,11 @@ class PurchasesController {
             end.value = moment().format('DD/MM/YYYY');
         }
 
-        this.getRecord(start, end);
-        this.filter(start, end);
+        this.getRecord(start, end, user);
+        this.filter(start, end, user);
     }
 
-    filter(start, end) {
+    filter(start, end, user) {
         let form = document.getElementById('purchases-filter-form')
 
         form.onsubmit = (evt) => {
@@ -60,27 +62,29 @@ class PurchasesController {
                 return false;
             }
 
-            this.getRecord(start, end);
+            this.getRecord(start, end, user);
         }
     }
 
-    getRecord(start, end) {
+    getRecord(start, end, user) {
         const tableId = '#purchases_list';
         Purchases.getPurchases(start.value, end.value).then(function (results) {
             let sNo = 1, dataSet = [];
+
+            const disabled = PurchasesController.isDisabled(user);
 
             Array.prototype.forEach.call(results, (row) => {
                 dataSet.push([
                     HtmlHelper.getSpanCell(sNo) +
                     HtmlHelper.getInputFieldHtml('id', 'purchases-edit-id-' + row.id, 'hidden', false, row.id),
-                    HtmlHelper.getSelect2InputFieldHtml('product', 'purchases-edit-product-' + row.id, row.product),
-                    HtmlHelper.getInputFieldHtml('quantity', 'purchases-edit-quantity-' + row.id, 'number', false, row.quantity),
-                    HtmlHelper.getInputFieldHtml('price', 'purchases-edit-price-' + row.id, 'number', false, row.price),
+                    HtmlHelper.getSelect2InputFieldHtml('product', 'purchases-edit-product-' + row.id, row.product, disabled),
+                    HtmlHelper.getInputFieldHtml('quantity', 'purchases-edit-quantity-' + row.id, 'number', false, row.quantity, disabled),
+                    HtmlHelper.getInputFieldHtml('price', 'purchases-edit-price-' + row.id, 'number', false, row.price, disabled),
                     HtmlHelper.getInputFieldHtml('total', 'purchases-edit-total-' + row.id, 'number', false, row.total, true),
-                    HtmlHelper.getSelect2InputFieldHtml('supplier', 'purchases-edit-supplier-' + row.id, row.supplier),
-                    HtmlHelper.getSelect2InputFieldHtml('terminal', 'purchases-edit-terminal-' + row.id, row.terminal),
-                    HtmlHelper.getInputFieldHtml('reg_no', 'purchases-edit-reg_no-' + row.id, false, false, row.reg_no),
-                    HtmlHelper.getStatusOfRow(row.id)
+                    HtmlHelper.getSelect2InputFieldHtml('supplier', 'purchases-edit-supplier-' + row.id, row.supplier, disabled),
+                    HtmlHelper.getSelect2InputFieldHtml('terminal', 'purchases-edit-terminal-' + row.id, row.terminal, disabled),
+                    HtmlHelper.getInputFieldHtml('reg_no', 'purchases-edit-reg_no-' + row.id, false, false, row.reg_no, disabled),
+                    HtmlHelper.getStatusOfRow(row.id, disabled)
                 ]);
                 sNo++;
             })
@@ -97,7 +101,9 @@ class PurchasesController {
                 ['text', 'TL Reg No'],
                 'Status'
             ])
-            HtmlHelper.setDataTableFooter(tableId, PurchasesController.defaultRow(sNo))
+            if (!disabled) {
+                HtmlHelper.setDataTableFooter(tableId, PurchasesController.defaultRow(sNo))
+            }
             PurchasesController.updateTotalAmount()
             PurchasesController.getSelect2Option()
             PurchasesController.create();
@@ -222,6 +228,16 @@ class PurchasesController {
                 total.value = event.target.value * qty.value
             });
         });
+    }
+
+    static isDisabled(user) {
+        let disabled = true;
+        if (isAdmin(user.role)) {
+            disabled = false
+        } else if (isset(user.permissions.daybook) && user.permissions.daybook.write) {
+            disabled = false
+        }
+        return disabled;
     }
 }
 

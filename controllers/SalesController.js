@@ -1,19 +1,21 @@
 const Sales     = require('../models/Sales');
 const Accounts  = require('../models/Accounts');
 const serialize = require('node-serialize');
+const settings  = require('electron-settings');
 const moment    = require('moment');
 
 class SalesController {
 
     constructor(elementId) {
         showLoader();
+        const user = settings.get('loggedUser');
         switch (elementId) {
             case 'sales-accounts1':
             case 'sales-accounts2':
             case 'sales-accounts3':
             case 'sales-accounts4':
             case 'sales-accounts5':
-                return this.index()
+                return this.index(user)
             default:
                 return console.log(123)
         }
@@ -27,7 +29,7 @@ class SalesController {
         return document.getElementById('sales-accounts-section')
     }
 
-    index() {
+    index(user) {
         let start = document.getElementById('sales-start-date')
         let end   = document.getElementById('sales-end-date')
 
@@ -38,11 +40,11 @@ class SalesController {
             end.value = moment().format('DD/MM/YYYY');
         }
 
-        this.getRecord(start, end);
-        this.filter(start, end);
+        this.getRecord(start, end, user);
+        this.filter(start, end, user);
     }
 
-    filter(start, end) {
+    filter(start, end, user) {
         let form = document.getElementById('sales-filter-form')
 
         form.onsubmit = (evt) => {
@@ -59,27 +61,29 @@ class SalesController {
                 return false;
             }
 
-            this.getRecord(start, end);
+            this.getRecord(start, end, user);
         }
     }
 
-    getRecord(start, end) {
+    getRecord(start, end, user) {
         const tableId = '#sales_list';
         Sales.getSales(start.value, end.value).then(function (results) {
             let sNo = 1, dataSet = [];
 
+            const disabled = SalesController.isDisabled(user);
+
             Array.prototype.forEach.call(results, (row) => {
                 dataSet.push([
                     HtmlHelper.getSpanCell(sNo) +
-                    HtmlHelper.getInputFieldHtml('id', 'sales-edit-id-' + row.id, 'hidden', false, row.id),
-                    HtmlHelper.getSelect2InputFieldHtml('product', 'sales-edit-product-' + row.id, row.product),
-                    HtmlHelper.getInputFieldHtml('quantity', 'sales-edit-quantity-' + row.id, 'number', false, row.quantity),
-                    HtmlHelper.getInputFieldHtml('price', 'sales-edit-price-' + row.id, 'number', false, row.price),
+                    HtmlHelper.getInputFieldHtml('id', 'sales-edit-id-' + row.id, 'hidden', false, row.id, disabled),
+                    HtmlHelper.getSelect2InputFieldHtml('product', 'sales-edit-product-' + row.id, row.product, disabled),
+                    HtmlHelper.getInputFieldHtml('quantity', 'sales-edit-quantity-' + row.id, 'number', false, row.quantity, disabled),
+                    HtmlHelper.getInputFieldHtml('price', 'sales-edit-price-' + row.id, 'number', false, row.price, disabled),
                     HtmlHelper.getInputFieldHtml('total', 'sales-edit-total-' + row.id, 'number', false, row.total, true),
-                    HtmlHelper.getSelect2InputFieldHtml('customer', 'sales-edit-customer-' + row.id, row.customer),
-                    HtmlHelper.getInputFieldHtml('description', 'sales-edit-description-' + row.id, false, false, row.description),
-                    HtmlHelper.getInputFieldHtml('reg_no', 'sales-edit-reg_no-' + row.id, false, false, row.reg_no),
-                    HtmlHelper.getStatusOfRow(row.id)
+                    HtmlHelper.getSelect2InputFieldHtml('customer', 'sales-edit-customer-' + row.id, row.customer, disabled),
+                    HtmlHelper.getInputFieldHtml('description', 'sales-edit-description-' + row.id, false, false, row.description, disabled),
+                    HtmlHelper.getInputFieldHtml('reg_no', 'sales-edit-reg_no-' + row.id, false, false, row.reg_no, disabled),
+                    HtmlHelper.getStatusOfRow(row.id, disabled)
                 ]);
                 sNo++;
             })
@@ -96,7 +100,9 @@ class SalesController {
                 ['text', 'TL Reg No'],
                 'Status'
             ])
-            HtmlHelper.setDataTableFooter(tableId, SalesController.defaultRow(sNo))
+            if (!disabled) {
+                HtmlHelper.setDataTableFooter(tableId, SalesController.defaultRow(sNo))
+            }
             SalesController.updateTotalAmount()
             SalesController.getSelect2Option()
             SalesController.create();
@@ -120,9 +126,9 @@ class SalesController {
     }
 
     static create() {
-        let table  = document.getElementById('sales_list')
+        let table   = document.getElementById('sales_list')
         let created = document.getElementById('sales-created-date')
-        let inputs = table.querySelectorAll('input')
+        let inputs  = table.querySelectorAll('input')
 
         Array.prototype.forEach.call(inputs, (input) => {
             input.addEventListener('keypress', function (event) {
@@ -215,6 +221,16 @@ class SalesController {
                 total.value = Math.round(event.target.value * qty.value)
             });
         });
+    }
+
+    static isDisabled(user) {
+        let disabled = true;
+        if (isAdmin(user.role)) {
+            disabled = false
+        } else if (isset(user.permissions.daybook) && user.permissions.daybook.write) {
+            disabled = false
+        }
+        return disabled;
     }
 }
 

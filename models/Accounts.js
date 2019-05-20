@@ -113,6 +113,21 @@ const Accounts = {
      * @param id
      * @returns {Promise.<*>}
      */
+    isAccountUsed: async function (id) {
+        const purchases = "SELECT `id` FROM `purchases` WHERE (`product` = '" + id + "' OR `supplier` = '" + id + "' OR `terminal` = '" + id + "') AND `deleted_at` IS NULL";
+        const sales     = "SELECT `id` FROM `sales` WHERE (`product` = '" + id + "' OR `customer` = '" + id + "') AND `deleted_at` IS NULL";
+        const profits   = "SELECT `id` FROM `profits` WHERE `account` = '" + id + "' AND `deleted_at` IS NULL";
+        const ledger    = "SELECT `id` FROM `ledger` WHERE (`credit` = '" + id + "' OR `debit` = '" + id + "') AND `deleted_at` IS NULL";
+        const general   = "SELECT `id` FROM `general` WHERE `account` = '" + id + "' AND `deleted_at` IS NULL";
+        const cartage   = "SELECT `id` FROM `cartage` WHERE (`account` = '" + id + "' OR `ledger` = '" + id + "') AND `deleted_at` IS NULL";
+        return await query(purchases + ' UNION ' + sales + ' UNION ' + profits + ' UNION ' + ledger + ' UNION ' + general + ' UNION ' + cartage);
+    },
+
+    /**
+     * Delete User
+     * @param id
+     * @returns {Promise.<*>}
+     */
     deleteAccount: async function (id) {
         const deleted_at = moment().format('YYYY-MM-DD HH:mm:ss');
         return await query("UPDATE `accounts` SET `deleted_at` = '" + deleted_at + "', `is_changed` = 1, " +

@@ -353,7 +353,8 @@ table.dataTable {
 }
 
 #report-information, #supplier-report-information,
-#profit-report-information, #vehicle-report-information {
+#profit-report-information, #vehicle-report-information,
+#balance-report-information {
   margin: 10px 0;
 }
 
@@ -605,6 +606,17 @@ table.dataTable {
   }
 }
 
+.diffLag {
+  display: none;
+}
+
+.translated-rtl .diffLag {
+  display: block;
+  + input {
+    display: none;
+  }
+}
+
 @media print {
 
   // Hide the report page for print only model
@@ -696,7 +708,7 @@ table.dataTable {
   }
   #sales_list {
     tr > th, tr > td {
-      &:nth-of-type(7){
+      &:nth-of-type(7) {
         display: none;
       }
     }
@@ -721,5 +733,10 @@ table.dataTable {
         width: 140px !important;
       }
     }
+  }
+
+  // Hide translator from printer
+  .skiptranslate {
+    display: none;
   }
 }

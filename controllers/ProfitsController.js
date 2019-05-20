@@ -1,19 +1,21 @@
 const ProfitsLoss = require('../models/ProfitsLoss');
 const Accounts    = require('../models/Accounts');
 const serialize   = require('node-serialize');
+const settings    = require('electron-settings');
 const moment      = require('moment');
 
 class ProfitsController {
 
     constructor(elementId) {
         showLoader();
+        const user = settings.get('loggedUser');
         switch (elementId) {
             case 'profit-loss1':
             case 'profit-loss2':
             case 'profit-loss3':
             case 'profit-loss4':
             case 'profit-loss5':
-                return this.index()
+                return this.index(user)
             default:
                 return console.log(123)
         }
@@ -27,7 +29,7 @@ class ProfitsController {
         return document.getElementById('profit-loss-section')
     }
 
-    index() {
+    index(user) {
         let start = document.getElementById('profit-start-date')
         let end   = document.getElementById('profit-end-date')
 
@@ -38,11 +40,11 @@ class ProfitsController {
             end.value = moment().format('DD/MM/YYYY');
         }
 
-        this.getRecord(start, end);
-        this.filter(start, end);
+        this.getRecord(start, end, user);
+        this.filter(start, end, user);
     }
 
-    filter(start, end) {
+    filter(start, end, user) {
         let form = document.getElementById('profit-filter-form')
 
         form.onsubmit = (evt) => {
@@ -59,24 +61,26 @@ class ProfitsController {
                 return false;
             }
 
-            this.getRecord(start, end);
+            this.getRecord(start, end, user);
         }
     }
 
-    getRecord(start, end) {
+    getRecord(start, end, user) {
         const tableId = '#profit_list';
         ProfitsLoss.getProfitsLosses(start.value, end.value).then(function (results) {
             let sNo = 1, dataSet = [];
+
+            const disabled = ProfitsController.isDisabled(user);
 
             Array.prototype.forEach.call(results, (row) => {
                 dataSet.push([
                     HtmlHelper.getSpanCell(sNo) +
                     HtmlHelper.getInputFieldHtml('id', 'profit-edit-id-' + row.id, 'hidden', false, row.id),
-                    HtmlHelper.getSelect2InputFieldHtml('account', 'profit-edit-account-' + row.id, row.account),
-                    HtmlHelper.getInputFieldHtml('debit', 'profit-edit-debit-' + row.id, 'number', false, row.debit),
-                    HtmlHelper.getInputFieldHtml('credit', 'profit-edit-credit-' + row.id, 'number', false, row.credit),
-                    HtmlHelper.getInputFieldHtml('description', 'profit-edit-description-' + row.id, false, false, row.description),
-                    HtmlHelper.getStatusOfRow(row.id)
+                    HtmlHelper.getSelect2InputFieldHtml('account', 'profit-edit-account-' + row.id, row.account, disabled),
+                    HtmlHelper.getInputFieldHtml('debit', 'profit-edit-debit-' + row.id, 'number', false, row.debit, disabled),
+                    HtmlHelper.getInputFieldHtml('credit', 'profit-edit-credit-' + row.id, 'number', false, row.credit, disabled),
+                    HtmlHelper.getInputFieldHtml('description', 'profit-edit-description-' + row.id, false, false, row.description, disabled),
+                    HtmlHelper.getStatusOfRow(row.id, disabled)
                 ]);
                 sNo++;
             })
@@ -90,7 +94,9 @@ class ProfitsController {
                 ['text', 'Description'],
                 'Status'
             ])
-            HtmlHelper.setDataTableFooter(tableId, ProfitsController.defaultRow(sNo))
+            if (!disabled) {
+                HtmlHelper.setDataTableFooter(tableId, ProfitsController.defaultRow(sNo))
+            }
             ProfitsController.getSelect2Option()
             ProfitsController.create()
         })
@@ -163,6 +169,16 @@ class ProfitsController {
             // Hide loader
             hideLoader()
         })
+    }
+
+    static isDisabled(user) {
+        let disabled = true;
+        if (isAdmin(user.role)) {
+            disabled = false
+        } else if (isset(user.permissions.daybook) && user.permissions.daybook.write) {
+            disabled = false
+        }
+        return disabled;
     }
 }
 

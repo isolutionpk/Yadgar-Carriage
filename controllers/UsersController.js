@@ -155,22 +155,23 @@ class UserController {
     }
 
     static destroy() {
-        let table   = document.getElementById('user_list')
-        let buttons = table.querySelectorAll('.delete-user')
+        let table = document.getElementById('user_list')
+        table.removeEventListener('click', UserController.destroyListener);
+        table.addEventListener('click', UserController.destroyListener);
+    }
 
-        Array.prototype.forEach.call(buttons, (button) => {
-            button.addEventListener('click', (event) => {
-                if (confirm('Are you sure want to delete this user')) {
-                    const id = event.target.dataset.delete;
-                    User.deleteUser(id).then(function (result) {
-                        const section = document.getElementById('user-index')
-                        if (section) section.click()
+    static destroyListener(event) {
+        if (event.target.dataset.delete) {
+            if (confirm('Are you sure want to delete this user')) {
+                const id = event.target.dataset.delete;
+                User.deleteUser(id).then(function (result) {
+                    const section = document.getElementById('user-index')
+                    if (section) section.click()
 
-                        showToast('User deleted successfully')
-                    })
-                }
-            })
-        })
+                    showToast('User deleted successfully')
+                })
+            }
+        }
     }
 
     getPermissions(elementId, result) {
@@ -180,40 +181,37 @@ class UserController {
             result = serialize.unserialize(result['permissions'])
         }
 
-        fetch("./config/permissions.json")
-            .then(response => response.json())
-            .then(json => {
-                let el       = document.getElementById(elementId);
-                el.innerHTML = '';
+        let json     = userDefaultPremissions();
+        let el       = document.getElementById(elementId);
+        el.innerHTML = '';
 
-                let checkbox, checkboxRight, permissions, checked;
-                Object.keys(json).forEach(function (key) {
+        let checkbox, checkboxRight, permissions, checked;
+        Object.keys(json).forEach(function (key) {
 
-                    // Checkbox Wrapper
-                    checkbox = '<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">' +
-                               '<div class="form-group"><label>' + key.replace('-', ' ').ucwords() + '</label><div class="checkbox">';
+            // Checkbox Wrapper
+            checkbox = '<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">' +
+                       '<div class="form-group"><label>' + key.replace('-', ' ').ucwords() + '</label><div class="checkbox">';
 
-                    checkboxRight = checked = '';
-                    permissions = json[key];
+            checkboxRight = checked = '';
+            permissions = json[key];
 
-                    // Read Checkbox
-                    if (isset(permissions.read)) {
-                        checkboxRight = 'class="pull-right"';
-                        checked       = (result.length === 0) ? 'checked' : (isset(result[key]) ? ((result[key].read) ? 'checked' : '') : '')
-                        checkbox += '<label><input type="checkbox" class="permissions" name="' + key + '_read" value="1" ' + checked + '>Read</label>';
-                    }
+            // Read Checkbox
+            if (isset(permissions.read)) {
+                checkboxRight = 'class="pull-right"';
+                checked       = (result.length === 0) ? 'checked' : (isset(result[key]) ? ((result[key].read) ? 'checked' : '') : '')
+                checkbox += '<label><input type="checkbox" class="permissions" name="' + key + '_read" value="1" ' + checked + '>Read</label>';
+            }
 
-                    // Write Checkbox
-                    if (isset(permissions.write)) {
-                        checked = (result.length === 0) ? 'checked' : (isset(result[key]) ? ((result[key].write) ? 'checked' : '') : '')
-                        checkbox += '<label ' + checkboxRight + '><input type="checkbox" class="permissions" name="' + key + '_write" value="1" ' + checked + '>Write</label>';
-                    }
+            // Write Checkbox
+            if (isset(permissions.write)) {
+                checked = (result.length === 0) ? 'checked' : (isset(result[key]) ? ((result[key].write) ? 'checked' : '') : '')
+                checkbox += '<label ' + checkboxRight + '><input type="checkbox" class="permissions" name="' + key + '_write" value="1" ' + checked + '>Write</label>';
+            }
 
-                    checkbox += '</div></div></div>';
+            checkbox += '</div></div></div>';
 
-                    el.innerHTML += checkbox
-                });
-            });
+            el.innerHTML += checkbox
+        });
     }
 }
 

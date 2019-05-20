@@ -49,15 +49,16 @@ const Purchases = {
         return await this.getUniqueKey().then(function (id) {
             let created_at = moment();
             if (created.value.trim() !== '' && created.value !== created_at.format('DD/MM/YYYY')) {
-                created_at = moment(created.value + ' 23:50:00', 'DD/MM/YYYY HH:mm:ss')
+                created_at = moment(created.value + ' 22:00:00', 'DD/MM/YYYY HH:mm:ss')
             }
-            created_at    = created_at.format('YYYY-MM-DD HH:mm:ss');
-            const reg_no  = data['reg_no'].replace(/'/g, "\\'").toUpperCase();
-            const user_id = settings.get('loggedUser').id;
+            created_at       = created_at.format('YYYY-MM-DD HH:mm:ss');
+            const updated_at = moment().format('YYYY-MM-DD HH:mm:ss');
+            const reg_no     = data['reg_no'].replace(/'/g, "\\'").toUpperCase();
+            const user_id    = settings.get('loggedUser').id;
             return query("INSERT INTO `purchases`(`id`, `product`, `quantity`, `price`, `total`, `supplier`, `terminal`, `reg_no`, `created_by`, `created_at`, `updated_at`) " +
                          "VALUES('" + id + "', '" + data['product'] + "', '" + data['quantity'] + "', '" + data['price'] + "', " +
                          "'" + data['total'] + "', '" + data['supplier'] + "', '" + data['terminal'] + "', " +
-                         "'" + reg_no + "', '" + user_id + "', '" + created_at + "', '" + created_at + "')");
+                         "'" + reg_no + "', '" + user_id + "', '" + created_at + "', '" + updated_at + "')");
         });
     },
 

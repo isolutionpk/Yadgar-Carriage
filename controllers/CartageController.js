@@ -1,18 +1,16 @@
 const Cartage   = require('../models/Cartage');
 const Accounts  = require('../models/Accounts');
 const serialize = require('node-serialize');
+const settings  = require('electron-settings');
 const moment    = require('moment');
 
 class CartageController {
 
     constructor(elementId) {
         showLoader();
-        switch (elementId) {
-            case 'cartage-billing':
-                return this.index()
-            default:
-                return console.log(123)
-        }
+
+        const user = settings.get('loggedUser');
+        this.index(user)
     }
 
     /**
@@ -23,7 +21,7 @@ class CartageController {
         return document.getElementById('cartage-billing-section')
     }
 
-    index() {
+    index(user) {
         let start = document.getElementById('cartage-start-date')
         let end   = document.getElementById('cartage-end-date')
 
@@ -34,11 +32,11 @@ class CartageController {
             end.value = moment().format('DD/MM/YYYY');
         }
 
-        this.getRecord(start, end);
-        this.filter(start, end);
+        this.getRecord(start, end, user);
+        this.filter(start, end, user);
     }
 
-    filter(start, end) {
+    filter(start, end, user) {
         let form = document.getElementById('cartage-filter-form')
 
         form.onsubmit = (evt) => {
@@ -55,25 +53,27 @@ class CartageController {
                 return false;
             }
 
-            this.getRecord(start, end);
+            this.getRecord(start, end, user);
         }
     }
 
-    getRecord(start, end) {
+    getRecord(start, end, user) {
         const tableId = '#cartage_list';
         Cartage.getCartage(start.value, end.value).then(function (results) {
             let sNo = 1, dataSet = [], debit = 0, credit = 0;
 
+            const disabled = CartageController.isDisabled(user);
+
             Array.prototype.forEach.call(results, (row) => {
                 dataSet.push([
                     HtmlHelper.getSpanCell(sNo) +
-                    HtmlHelper.getInputFieldHtml('id', 'cartage-edit-id-' + row.id, 'hidden', false, row.id),
-                    HtmlHelper.getSelect2InputFieldHtml('account', 'cartage-edit-account-' + row.id, row.account),
-                    HtmlHelper.getSelect2InputFieldHtml('ledger', 'cartage-edit-ledger-' + row.id, row.ledger),
-                    HtmlHelper.getInputFieldHtml('debit', 'cartage-edit-debit-' + row.id, 'number', false, row.debit),
-                    HtmlHelper.getInputFieldHtml('credit', 'cartage-edit-credit-' + row.id, 'number', false, row.credit),
-                    HtmlHelper.getInputFieldHtml('description', 'cartage-edit-description-' + row.id, false, false, row.description),
-                    HtmlHelper.getStatusOfRow(row.id)
+                    HtmlHelper.getInputFieldHtml('id', 'cartage-edit-id-' + row.id, 'hidden', false, row.id, disabled),
+                    HtmlHelper.getSelect2InputFieldHtml('account', 'cartage-edit-account-' + row.id, row.account, disabled),
+                    HtmlHelper.getSelect2InputFieldHtml('ledger', 'cartage-edit-ledger-' + row.id, row.ledger, disabled),
+                    HtmlHelper.getInputFieldHtml('debit', 'cartage-edit-debit-' + row.id, 'number', false, row.debit, disabled),
+                    HtmlHelper.getInputFieldHtml('credit', 'cartage-edit-credit-' + row.id, 'number', false, row.credit, disabled),
+                    HtmlHelper.getInputFieldHtml('description', 'cartage-edit-description-' + row.id, false, false, row.description, disabled),
+                    HtmlHelper.getStatusOfRow(row.id, disabled)
                 ]);
                 debit  = debit + parseFloat(row.debit);
                 credit = credit + parseFloat(row.credit);
@@ -90,7 +90,9 @@ class CartageController {
                 ['text', 'Description'],
                 'Status'
             ])
-            HtmlHelper.setDataTableFooter(tableId, CartageController.defaultRow(sNo))
+            if (!disabled) {
+                HtmlHelper.setDataTableFooter(tableId, CartageController.defaultRow(sNo))
+            }
             CartageController.updateBalance(debit, credit)
             CartageController.getSelect2Option()
             CartageController.create()
@@ -185,6 +187,16 @@ class CartageController {
         debit.value  = dr;
         credit.value = cr;
         total.value  = dr - cr;
+    }
+
+    static isDisabled(user) {
+        let disabled = true;
+        if (isAdmin(user.role)) {
+            disabled = false
+        } else if (isset(user.permissions.vehicleBilling) && user.permissions.vehicleBilling.write) {
+            disabled = false
+        }
+        return disabled;
     }
 }
 

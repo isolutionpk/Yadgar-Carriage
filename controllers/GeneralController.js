@@ -1,19 +1,21 @@
 const General   = require('../models/General');
 const Accounts  = require('../models/Accounts');
 const serialize = require('node-serialize');
+const settings  = require('electron-settings');
 const moment    = require('moment');
 
 class GeneralController {
 
     constructor(elementId) {
         showLoader();
+        const user = settings.get('loggedUser');
         switch (elementId) {
             case 'general-accounts1':
             case 'general-accounts2':
             case 'general-accounts3':
             case 'general-accounts4':
             case 'general-accounts5':
-                return this.index()
+                return this.index(user)
             default:
                 return console.log(123)
         }
@@ -27,7 +29,7 @@ class GeneralController {
         return document.getElementById('general-accounts-section')
     }
 
-    index() {
+    index(user) {
         let start = document.getElementById('general-start-date')
         let end   = document.getElementById('general-end-date')
 
@@ -38,11 +40,11 @@ class GeneralController {
             end.value = moment().format('DD/MM/YYYY');
         }
 
-        this.getRecord(start, end);
-        this.filter(start, end);
+        this.getRecord(start, end, user);
+        this.filter(start, end, user);
     }
 
-    filter(start, end) {
+    filter(start, end, user) {
         let form = document.getElementById('general-filter-form')
 
         form.onsubmit = (evt) => {
@@ -59,24 +61,26 @@ class GeneralController {
                 return false;
             }
 
-            this.getRecord(start, end);
+            this.getRecord(start, end, user);
         }
     }
 
-    getRecord(start, end) {
+    getRecord(start, end, user) {
         const tableId = '#general_list';
         General.getGenerals(start.value, end.value).then(function (results) {
             let sNo = 1, dataSet = [], debit = 0, credit = 0;
+
+            const disabled = GeneralController.isDisabled(user);
 
             Array.prototype.forEach.call(results, (row) => {
                 dataSet.push([
                     HtmlHelper.getSpanCell(sNo) +
                     HtmlHelper.getInputFieldHtml('id', 'general-edit-id-' + row.id, 'hidden', false, row.id),
-                    HtmlHelper.getSelect2InputFieldHtml('account', 'general-edit-account-' + row.id, row.account),
-                    HtmlHelper.getInputFieldHtml('debit', 'general-edit-debit-' + row.id, 'number', false, row.debit),
-                    HtmlHelper.getInputFieldHtml('credit', 'general-edit-credit-' + row.id, 'number', false, row.credit),
-                    HtmlHelper.getInputFieldHtml('description', 'general-edit-description-' + row.id, false, false, row.description),
-                    HtmlHelper.getStatusOfRow(row.id)
+                    HtmlHelper.getSelect2InputFieldHtml('account', 'general-edit-account-' + row.id, row.account, disabled),
+                    HtmlHelper.getInputFieldHtml('debit', 'general-edit-debit-' + row.id, 'number', false, row.debit, disabled),
+                    HtmlHelper.getInputFieldHtml('credit', 'general-edit-credit-' + row.id, 'number', false, row.credit, disabled),
+                    HtmlHelper.getInputFieldHtml('description', 'general-edit-description-' + row.id, false, false, row.description, disabled),
+                    HtmlHelper.getStatusOfRow(row.id, disabled)
                 ]);
                 debit  = debit + parseFloat(row.debit);
                 credit = credit + parseFloat(row.credit);
@@ -92,7 +96,9 @@ class GeneralController {
                 ['text', 'Description'],
                 'Status'
             ])
-            HtmlHelper.setDataTableFooter(tableId, GeneralController.defaultRow(sNo))
+            if (!disabled) {
+                HtmlHelper.setDataTableFooter(tableId, GeneralController.defaultRow(sNo))
+            }
             GeneralController.updateBalance(debit, credit)
             GeneralController.getSelect2Option()
             GeneralController.create()
@@ -176,6 +182,16 @@ class GeneralController {
         debit.value  = dr;
         credit.value = cr;
         total.value  = dr - cr;
+    }
+
+    static isDisabled(user) {
+        let disabled = true;
+        if (isAdmin(user.role)) {
+            disabled = false
+        } else if (isset(user.permissions.daybook) && user.permissions.daybook.write) {
+            disabled = false
+        }
+        return disabled;
     }
 }
 
