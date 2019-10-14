@@ -20,7 +20,7 @@ function getInstallerConfig() {
     return Promise.resolve({
         appDirectory: path.join(outPath, 'YadgarCarriage-win32-ia32'),
         exe: 'YadgarCarriage.exe',
-        iconUrl: 'http://isolution.io/demo/yadgar/resources/assets/images/app-icon/win/app.ico',
+        iconUrl: 'http://yadgarcarriage.com/demo/yadgar/resources/assets/images/app-icon/win/app.ico',
         loadingGif: path.join(rootPath, 'assets', 'img', 'loading.gif'),
         noMsi: true,
         outputDirectory: path.join(outPath, 'YadgarCarriage'),

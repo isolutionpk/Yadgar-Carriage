@@ -2,9 +2,10 @@ const request      = require("request");
 const moment       = require('moment');
 const PostOnServer = require('../models/PostOnServer');
 // const serverHost   = 'http://localhost:8000';
-const serverHost   = 'http://isolution.io/demo/yadgar';
-const time2Sync    = 2.5;
+const serverHost   = 'http://yadgarcarriage.com/demo/yadgar';
+const time2Sync    = 5;
 let holdSync       = time2Sync * 60;
+let receiveSync    = false;
 
 class ServerJs {
     constructor(type) {
@@ -60,7 +61,8 @@ class ServerJs {
 
     getUpdatedServerTables() {
         PostOnServer.getLastSyncTime().then(function (result) {
-            const time = result[0].value;
+            receiveSync = true;
+            const time  = result[0].value;
             ServerJs.startReceiving4rmServer('users', time).then(function () {
                 ServerJs.startReceiving4rmServer('accounts', time).then(function () {
                     ServerJs.startReceiving4rmServer('documents', time).then(function () {
@@ -76,6 +78,7 @@ class ServerJs {
                                                 PostOnServer.setLastSyncTime(moment()).then(function () {
                                                     // update on document as well
                                                     PostOnServer.setLastSyncTimeOnDocument();
+                                                    receiveSync = false;
                                                 });
 
                                             });
@@ -196,8 +199,11 @@ setInterval(updateClock, 1000);
 window.setInterval(function () {
     new ServerJs(1);
 
-    // Pull on server
-    sleep(10000).then(() => {
-        new ServerJs(2);
-    });
+    // Validate if is in sync for pull
+    if (receiveSync == false) {
+        // Pull on server
+        sleep(10000).then(() => {
+            new ServerJs(2);
+        });
+    }
 }, (time2Sync * 60000));

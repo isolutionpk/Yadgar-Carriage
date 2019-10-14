@@ -9,7 +9,7 @@ const machine       = require('node-machine-id');
 const number_format = require('../helpers/number_format');
 const shell         = require('electron').shell
 // const serverHost    = 'http://localhost:8000';
-const serverHost    = 'http://isolution.io/demo/yadgar';
+const serverHost    = 'http://yadgarcarriage.com/demo/yadgar';
 require('jspdf-autotable');
 
 class ReportsController {
